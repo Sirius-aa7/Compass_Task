@@ -3,23 +3,27 @@ import 'package:flutter_compass/flutter_compass.dart';
 class CompassService {
   // method to get the current heading direction
   String getDirection(double heading) {
+    if (heading < 0) {
+      heading += 360;
+    }
+    //print(heading);
     if (heading >= 0 && heading < 22.5) {
       return 'N';
-    } else if (heading >= 22.5 && heading < 67.5) {
+    } else if (heading < 67.5) {
       return 'NE';
-    } else if (heading >= 67.5 && heading < 112.5) {
+    } else if (heading < 112.5) {
       return 'E';
-    } else if (heading >= 112.5 && heading < 157.5) {
+    } else if (heading < 157.5) {
       return 'SE';
-    } else if (heading >= 157.5 && heading < 202.5) {
+    } else if (heading < 202.5) {
       return 'S';
-    } else if (heading >= 202.5 && heading < 247.5) {
+    } else if (heading < 247.5) {
       return 'SW';
-    } else if (heading >= 247.5 && heading < 292.5) {
+    } else if (heading < 292.5) {
       return 'W';
-    } else if (heading >= 292.5 && heading < 337.5) {
+    } else if (heading < 337.5) {
       return 'NW';
-    } else if (heading >= 337.5 && heading < 360) {
+    } else if (heading < 360) {
       return 'N';
     } else {
       return 'N';
