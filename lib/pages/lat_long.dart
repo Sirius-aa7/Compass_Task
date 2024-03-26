@@ -64,6 +64,44 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
           Row(
             children: [
               Padding(padding: EdgeInsets.only(left: 35)),
+              SizedBox(
+                width: 50,
+              ),
+              Padding(padding: EdgeInsets.all(10)),
+              Text(
+                "Lat",
+                style: GoogleFonts.redHatDisplay(
+                  fontWeight: FontWeight.w900,
+                  color: const Color(0xFF4C4C4C),
+                ),
+              ),
+              SizedBox(
+                width: 38,
+              ),
+              Padding(padding: EdgeInsets.all(10)),
+              Text(
+                "Lon",
+                style: GoogleFonts.redHatDisplay(
+                  fontWeight: FontWeight.w900,
+                  color: const Color(0xFF4C4C4C),
+                ),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              Padding(padding: EdgeInsets.all(10)),
+              Text(
+                "Alt",
+                style: GoogleFonts.redHatDisplay(
+                  fontWeight: FontWeight.w900,
+                  color: const Color(0xFF4C4C4C),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Padding(padding: EdgeInsets.only(left: 35)),
               Text(
                 "Point 1:",
                 style: GoogleFonts.redHatDisplay(
