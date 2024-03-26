@@ -114,6 +114,78 @@ class _GeoLocationApp2State extends State<GeoLocationApp2> {
                 ],
               ),
               AltitudeScreen(),
+              Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.42)),
+                  Text(
+                    "Easting:",
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4C4C4C),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(3)),
+                  Text(
+                    "112233",
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4C4C4C),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.42)),
+                  Text(
+                    "Northing:",
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4C4C4C),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(3)),
+                  Text(
+                    "1234567",
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4C4C4C),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.42)),
+                  Text(
+                    "Speed:",
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4C4C4C),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(3)),
+                  Text(
+                    "${_currentLocation?.longitude.toStringAsPrecision(3)}",
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4C4C4C),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ],

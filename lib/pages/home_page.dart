@@ -123,7 +123,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.6,
+            height: MediaQuery.of(context).size.height * 0.45,
+            width: MediaQuery.of(context).size.width * 1.2,
             child: Stack(
               alignment: Alignment.center,
               fit: StackFit.passthrough,
@@ -137,9 +138,9 @@ class _HomePageState extends State<HomePage> {
                 // ),
                 // // Compass Dial Background
                 Image.asset(
-                  'assets/images/dial.png',
-                  height: _screenHeight * 0.7, //0.8
-                  width: _screenWidth,
+                  'assets/images/dial3.png',
+                  // height: _screenHeight * 2, // * 1.5, //0.7
+                  // width: _screenWidth * 2, // * 1.5,
                 ),
                 // Compass Dial (Ticks)
                 AnimatedRotation(
@@ -148,14 +149,15 @@ class _HomePageState extends State<HomePage> {
                     turns: compassRotation,
                     //turns: -(_compassController.compassHeading ?? 0) / 360,
                     child: Image.asset(
-                      'assets/images/ticks.png',
-                      height: _screenHeight * 0.7, //0.5,
+                      'assets/images/CompassLabel.png',
+                      // 'assets/images/ticks.png',
+                      height: _screenHeight * 2, //0.5,
                       width: _screenWidth,
                     )),
                 // Compass Dial (Pointer)
                 Image.asset(
                   'assets/images/pointer.png',
-                  height: _screenHeight * 0.7,
+                  height: _screenHeight,
                   width: _screenWidth,
                 ),
                 // Compass Display (Text)
@@ -175,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         '${_compassController.compassDirection}',
                         style: GoogleFonts.redHatDisplay(
-                          fontSize: 8,
+                          fontSize: 10,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xCC4C4C4C),
                         ),
@@ -184,12 +186,12 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                // Compass Display (Inner Shadow)
-                Image.asset(
-                  'assets/images/shadow.png',
-                  height: _screenHeight * 0.7,
-                  width: _screenWidth,
-                ),
+                //Compass Display (Inner Shadow)
+                // Image.asset(
+                //   'assets/images/shadow.png',
+                //   // height: _screenHeight * 1.2,
+                //   // width: _screenWidth,
+                // ),
               ],
             ),
           ),

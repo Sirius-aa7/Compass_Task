@@ -51,10 +51,14 @@ flutter:
   assets:
     - assets/images/bg.png
     - assets/images/dial.png
+    - assets/images/dial2.png
+    - assets/images/dial3.png
     - assets/images/pointer.png
     - assets/images/ticks.png
     - assets/images/tick2.png
     - assets/images/shadow.png
+    - assets/images/CompassLabel.png
+    - assets/images/CompassLabel2.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
