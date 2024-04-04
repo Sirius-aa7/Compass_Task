@@ -25,8 +25,8 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width * 0.6,
-      height: Get.width * 0.13,
-      margin: EdgeInsets.all(20),
+      height: Get.width * 0.08,
+      margin: EdgeInsets.all(10),
       child: Stack(
         children: <Widget>[
           GestureDetector(
@@ -41,7 +41,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
             },
             child: Container(
               width: Get.width * 0.6,
-              height: Get.width * 0.13,
+              height: Get.width * 0.08,
               decoration: ShapeDecoration(
                 color: widget.backgroundColor,
                 shape: RoundedRectangleBorder(
@@ -95,6 +95,64 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SimpleToggle extends StatefulWidget {
+  final bool value;
+  final Function(bool) onToggle;
+
+  const SimpleToggle({required this.value, required this.onToggle});
+
+  @override
+  State<SimpleToggle> createState() => _SimpleToggleState();
+}
+
+class _SimpleToggleState extends State<SimpleToggle> {
+  late bool _isOn;
+
+  @override
+  void initState() {
+    super.initState();
+    _isOn = widget.value;
+  }
+
+  void _toggle() {
+    setState(() {
+      _isOn = !_isOn;
+      widget.onToggle(_isOn);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      transitionBuilder: (child, animation) {
+        return ScaleTransition(
+          scale: animation,
+          child: child,
+        );
+      },
+      child: GestureDetector(
+        onTap: _toggle,
+        child: Container(
+          width: 50,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: _isOn ? Colors.green : Colors.grey,
+          ),
+          child: Center(
+            child: Icon(
+              _isOn ? Icons.check : Icons.close,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
       ),
     );
   }
