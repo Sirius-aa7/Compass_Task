@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 import 'package:arnv/controllers/compass_controller.dart';
 import 'package:flutter/services.dart';
-import 'altitude.dart';
+import 'dart:ui' as ui;
 import 'buttons_beside_compass.dart';
 import 'lat_long.dart';
 import 'lat_long_2.dart';
@@ -70,6 +73,30 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  GlobalKey _globalKey = GlobalKey();
+
+  Future<void> _captureCompleteScreenshot() async {
+    try {
+      RenderRepaintBoundary boundary =
+      _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage(pixelRatio: 4.0 ,); // Use
+      // pixelRatio: 1.0 to capture the entire screen
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List screenshot = byteData!.buffer.asUint8List();
+
+      // Save the complete screenshot to the device's gallery
+      final result = await ImageGallerySaver.saveImage(screenshot);
+      print('Complete screenshot saved to: $result');
+
+      Fluttertoast.showToast(
+        msg: "Screenshot saved",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    } catch (e) {
+      print('Error saving complete screenshot: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,167 +123,171 @@ class _HomePageState extends State<HomePage> {
     ]);
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Center(
-                  child: RoundedIconButton(
-                    icon: Icons.star,
-                    onPressed: () async {
-                      print('Button Pressed!');
-                    },
-                  ),
-                ),
-                Center(
-                  child: RoundedIconButton(
-                    icon: Icons.settings,
-                    onPressed: () {
-                      print('Button Pressed!');
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.45,
-            width: MediaQuery.of(context).size.width * 1.2,
-            child: Stack(
-              alignment: Alignment.center,
-              fit: StackFit.passthrough,
-              children: [
-                Image.asset(
-                  'assets/images/dial3.png',
-                ),
-                AnimatedRotation(
-                    duration: Duration(milliseconds: 10),
-                    curve: Curves.easeInOutCubic,
-                    turns: compassRotation,
-                    child: Image.asset(
-                      'assets/images/CompassLabel.png',
-                    )),
-                Image.asset(
-                  'assets/images/pointer.png',
-                ),
-                Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        '${degreeValue}°',
-                        style: GoogleFonts.redHatDisplay(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
+      body: RepaintBoundary(
+        key: _globalKey,
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Center(
+                      child: RoundedIconButton(
+                        icon: Icons.star,
+                        onPressed: _captureCompleteScreenshot,
                       ),
-                      Text(
-                        '${_compassController.compassDirection}',
-                        style: GoogleFonts.redHatDisplay(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xCC4C4C4C),
-                        ),
-                      ),
-                      GeoLocationApp2(),
-                    ],
-                  ),
-                ),
-                if (_isCameraOn)
-                  Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      FutureBuilder<void>(
-                        future: _initializeCameraFuture,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
-                            return CameraPreview(_cameraController);
-                          } else {
-                            return CircularProgressIndicator();
-                          }
+                    ),
+                    Center(
+                      child: RoundedIconButton(
+                        icon: Icons.settings,
+                        onPressed: () {
+                          print('Button Pressed!');
                         },
                       ),
-
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        width: MediaQuery.of(context).size.width * 1.2,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          fit: StackFit.passthrough,
-                          children: [
-                            AnimatedRotation(
-                                duration: Duration(milliseconds: 10),
-                                curve: Curves.easeInOutCubic,
-                                turns: compassRotation,
-                                child: Image.asset(
-                                  'assets/images/CompassLabel2.png',
-                                )),
-                            Image.asset(
-                              'assets/images/pointer.png',
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.45,
+                width: MediaQuery.of(context).size.width * 1.2,
+                child: Stack(
+                  alignment: Alignment.center,
+                  fit: StackFit.passthrough,
+                  children: [
+                    Image.asset(
+                      'assets/images/dial3.png',
+                    ),
+                    AnimatedRotation(
+                        duration: Duration(milliseconds: 10),
+                        curve: Curves.easeInOutCubic,
+                        turns: compassRotation,
+                        child: Image.asset(
+                          'assets/images/CompassLabel.png',
+                        )),
+                    Image.asset(
+                      'assets/images/pointer.png',
+                    ),
+                    Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '${degreeValue}°',
+                            style: GoogleFonts.redHatDisplay(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w900,
+                              color: const Color(0xFF4C4C4C),
                             ),
-                            Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '${degreeValue}°',
-                                    style: GoogleFonts.redHatDisplay(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w900,
-                                      color: Colors.white
-                                    ),
-                                  ),
-                                  Text(
-                                    '${_compassController.compassDirection}',
-                                    style: GoogleFonts.redHatDisplay(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  GeoLocationApp3(),
-                                ],
-                              ),
+                          ),
+                          Text(
+                            '${_compassController.compassDirection}',
+                            style: GoogleFonts.redHatDisplay(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xCC4C4C4C),
                             ),
-                          ],
-                        ),
+                          ),
+                          GeoLocationApp2(),
+                        ],
                       ),
-                    ]
-                  ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Center(
-                  child: RoundedIconButton(
-                    icon: Icons.location_on,
-                    onPressed: () {
-                      print('Button Pressed!');
-                    },
-                  ),
+                    ),
+                    if (_isCameraOn)
+                      Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          FutureBuilder<void>(
+                            future: _initializeCameraFuture,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.done) {
+                                return CameraPreview(_cameraController);
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.45,
+                            width: MediaQuery.of(context).size.width * 1.2,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              fit: StackFit.passthrough,
+                              children: [
+                                AnimatedRotation(
+                                    duration: Duration(milliseconds: 10),
+                                    curve: Curves.easeInOutCubic,
+                                    turns: compassRotation,
+                                    child: Image.asset(
+                                      'assets/images/CompassLabel2.png',
+                                    )),
+                                Image.asset(
+                                  'assets/images/pointer.png',
+                                ),
+                                Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        '${degreeValue}°',
+                                        style: GoogleFonts.redHatDisplay(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white
+                                        ),
+                                      ),
+                                      Text(
+                                        '${_compassController.compassDirection}',
+                                        style: GoogleFonts.redHatDisplay(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      GeoLocationApp3(),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]
+                      ),
+                  ],
                 ),
-                Center(
-                  child: RoundedIconButton(
-                    icon: Icons.camera_alt_rounded,
-                    onPressed: () {
-                      _toggleCamera();
-                    },
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Center(
+                      child: RoundedIconButton(
+                        icon: Icons.location_on,
+                        onPressed: () {
+                          print('Button Pressed!');
+                        },
+                      ),
+                    ),
+                    Center(
+                      child: RoundedIconButton(
+                        icon: Icons.camera_alt_rounded,
+                        onPressed: () {
+                          _toggleCamera();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              GeoLocationApp(),
+            ],
           ),
-          GeoLocationApp(),
-        ],
+        ),
       ),
     );
   }
