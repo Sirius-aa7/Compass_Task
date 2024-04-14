@@ -12,6 +12,7 @@ class GeoLocationApp2 extends StatefulWidget {
 }
 
 class _GeoLocationApp2State extends State<GeoLocationApp2> {
+  Position? _position;
   Position? _currentLocation;
   late bool servicePermission = false;
   late LocationPermission permission;
@@ -44,10 +45,44 @@ class _GeoLocationApp2State extends State<GeoLocationApp2> {
     }
   }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _initializeLocation();
+  // }
+  Future<void> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print('Location services are disabled.');
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print('Location permissions are denied.');
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print(
+          'Location permissions are permanently denied, we cannot request permissions.');
+      return;
+    }
+
+    _position = await Geolocator.getCurrentPosition();
+    setState(() { });
+  }
+
   @override
   void initState() {
     super.initState();
-    _initializeLocation();
+    _determinePosition();
   }
 
   Future<void> _initializeLocation() async {
@@ -81,7 +116,8 @@ class _GeoLocationApp2State extends State<GeoLocationApp2> {
                   ),
                   Padding(padding: EdgeInsets.all(3)),
                   Text(
-                    "${_currentLocation?.latitude.toStringAsPrecision(7)}",
+                    // _position!.latitude.toStringAsPrecision(7),
+                    "${_position?.latitude?.toStringAsPrecision(7)}",
                     style: GoogleFonts.redHatDisplay(
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
@@ -105,7 +141,8 @@ class _GeoLocationApp2State extends State<GeoLocationApp2> {
                   ),
                   Padding(padding: EdgeInsets.all(3)),
                   Text(
-                    "${_currentLocation?.longitude.toStringAsPrecision(7)}",
+                    "${_position?.longitude?.toStringAsPrecision(7)}",
+                    // "${_currentLocation?.longitude.toStringAsPrecision(7)}",
                     style: GoogleFonts.redHatDisplay(
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
@@ -114,7 +151,34 @@ class _GeoLocationApp2State extends State<GeoLocationApp2> {
                   ),
                 ],
               ),
-              AltitudeScreen(),
+              Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.42)),
+                  Text(
+                    "Alt:",
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4C4C4C),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(3)),
+                  Text(
+                    "${_position?.altitude?.toInt()} m",
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF4C4C4C),
+                    ),
+                  ),
+                ],
+              ),
+              //AltitudeScreen(),
               Row(
                 children: [
                   Padding(
@@ -178,7 +242,7 @@ class _GeoLocationApp2State extends State<GeoLocationApp2> {
                   ),
                   Padding(padding: EdgeInsets.all(3)),
                   Text(
-                    "${_currentLocation?.longitude.toStringAsPrecision(3)}",
+                    "${_position?.altitude?.toInt()} m",
                     style: GoogleFonts.redHatDisplay(
                       fontSize: 10,
                       fontWeight: FontWeight.w900,

@@ -1,3 +1,4 @@
+import 'package:arnv/pages/sensorCode.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/rendering.dart';
@@ -192,6 +193,7 @@ class _HomePageState extends State<HomePage> {
                               color: const Color(0xCC4C4C4C),
                             ),
                           ),
+                          // GPSDemo(),
                           GeoLocationApp2(),
                         ],
                       ),
@@ -248,7 +250,8 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      GeoLocationApp3(),
+                                      GPSDemo(),
+                                      //GeoLocationApp3(),
                                     ],
                                   ),
                                 ),
