@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +15,11 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   late bool servicePermission = false;
   late LocationPermission permission;
   String _currentAddress = "";
+  bool sectionEnabled = true;
+  TextEditingController point1LatController = TextEditingController();
+  TextEditingController point1LonController = TextEditingController();
+  TextEditingController point2LatController = TextEditingController();
+  TextEditingController point2LonController = TextEditingController();
 
   Future<Position> _getCurrentLocation() async {
     servicePermission = await Geolocator.isLocationServiceEnabled();
@@ -60,119 +66,264 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
     return Container(
       child: Column(
         children: [
-          Padding(padding: EdgeInsets.all(10)),
-          Row(
-            children: [
-              Padding(padding: EdgeInsets.only(left: 35)),
-              SizedBox(
-                width: 50,
-              ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "Lat",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text('P'),
+                Switch(
+                  value: sectionEnabled,
+                  activeColor: Color.fromRGBO(203, 219, 188, 10),
+                  inactiveTrackColor: Colors.grey.shade400,
+                  onChanged: (value) {
+                    setState(() {
+                      sectionEnabled = value;
+                      if (!sectionEnabled) {
+                          point1LatController.text = '';
+                          point1LonController.text = '';
+                          point2LatController.text = '';
+                          point2LonController.text = '';
+                      }
+                    });
+                  },
                 ),
-              ),
-              SizedBox(
-                width: 38,
-              ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "Lon",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "Alt",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
-              ),
-            ],
+                Text('C')
+              ],
+            ),
           ),
-          Row(
-            children: [
-              Padding(padding: EdgeInsets.only(left: 35)),
-              Text(
-                "Point 1:",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
+
+          if(!sectionEnabled)
+            Container(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 35)),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "Lat",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 38,
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "Lon",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "Alt",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 35)),
+                      Text(
+                        "Point 1:",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "${_currentLocation?.latitude.toStringAsPrecision(7)}",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "${_currentLocation?.longitude.toStringAsPrecision(7)}",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "471",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 35)),
+                      Text(
+                        "Point 2:",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "${_currentLocation?.latitude.toStringAsPrecision(7)}",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "${_currentLocation?.longitude.toStringAsPrecision(7)}",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Text(
+                        "471",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "${_currentLocation?.latitude.toStringAsPrecision(7)}",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
+            ),
+
+          if(sectionEnabled)
+            Container(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 35)),
+                      Text(
+                        "Point 1: ",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 35,
+                        width: 80,
+                        child: TextField(
+                          controller: point1LatController,
+                          enabled: sectionEnabled,
+                          decoration: InputDecoration(
+                            labelText: 'Lat 1',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 35,
+                        width: 80,
+                        child: TextField(
+                          controller: point1LonController,
+                          enabled: sectionEnabled,
+                          decoration: InputDecoration(
+                            labelText: 'Lon 1',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 35)),
+                      Text(
+                        "Point 2:",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 35,
+                        width: 80,
+                        child: TextField(
+                          controller: point2LatController,
+                          enabled: sectionEnabled,
+                          decoration: InputDecoration(
+                            labelText: 'Lat 2',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 35,
+                        width: 80,
+                        child: TextField(
+                          controller: point2LonController,
+                          enabled: sectionEnabled,
+                          decoration: InputDecoration(
+                            labelText: 'Lon 2',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 35)),
+                      Text(
+                        "Distance:",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 35,
+                        width: 167,
+                        child: TextField(
+                          controller: point2LonController,
+                          enabled: sectionEnabled,
+                          decoration: InputDecoration(
+                            labelText: 'Calculated distance ',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "${_currentLocation?.longitude.toStringAsPrecision(7)}",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
-              ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "471",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
-              ),
-            ],
-          ),
-          Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-          Row(
-            children: [
-              Padding(padding: EdgeInsets.only(left: 35)),
-              Text(
-                "Point 2:",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
-              ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "${_currentLocation?.latitude.toStringAsPrecision(7)}",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
-              ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "${_currentLocation?.longitude.toStringAsPrecision(7)}",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
-              ),
-              Padding(padding: EdgeInsets.all(10)),
-              Text(
-                "471",
-                style: GoogleFonts.redHatDisplay(
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF4C4C4C),
-                ),
-              ),
-            ],
-          ),
-          Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
+            ),
+
+          Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
           Row(
             children: [
               Padding(padding: EdgeInsets.only(left: 35)),
@@ -240,3 +391,88 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
     );
   }
 }
+
+// class ToggleSwitch extends StatefulWidget {
+//   @override
+//   _ToggleSwitchState createState() => _ToggleSwitchState();
+// }
+//
+// class _ToggleSwitchState extends State<ToggleSwitch> {
+//   bool sectionEnabled = true;
+//   TextEditingController textController1 = TextEditingController();
+//   TextEditingController textController2 = TextEditingController();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             // Switch(
+//             //   value: sectionEnabled,
+//             //   onChanged: (value) {
+//             //     setState(() {
+//             //       sectionEnabled = value;
+//             //       if (!sectionEnabled) {
+//             //         textController1.text = '';
+//             //         textController2.text = '';
+//             //       }
+//             //     });
+//             //   },
+//             // ),
+//             SizedBox(height: 10),
+//             Container(
+//               width: 300,
+//               padding: EdgeInsets.all(20),
+//               color: sectionEnabled ? null : Colors.grey[300],
+//               child: Column(
+//                 children: [
+//                   Row(
+//                     children: [
+//                       Expanded(
+//                         child: TextField(
+//                           controller: textController1,
+//                           enabled: sectionEnabled,
+//                           decoration: InputDecoration(
+//                             labelText: 'Text 1',
+//                             border: OutlineInputBorder(),
+//                           ),
+//                         ),
+//                       ),
+//                       SizedBox(width: 20),
+//                       Expanded(
+//                         child: Container(
+//                           height: 20,
+//                           color: sectionEnabled ? Colors.white : Colors.grey[400],
+//                           child: Center(
+//                             child: Text(
+//                               'Box 1',
+//                               style: TextStyle(color: sectionEnabled ? Colors.black : Colors.grey),
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       SizedBox(width: 20),
+//                       Switch(
+//                         value: sectionEnabled,
+//                         onChanged: (value) {
+//                           setState(() {
+//                             sectionEnabled = value;
+//                             if (!sectionEnabled) {
+//                               textController1.text = '';
+//                               textController2.text = '';
+//                             }
+//                           });
+//                         },
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ],
+//         ),
+//     );
+//   }
+// }
+//
