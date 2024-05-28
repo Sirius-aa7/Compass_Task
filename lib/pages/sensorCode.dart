@@ -9,14 +9,13 @@ class GPSDemo extends StatefulWidget {
 
 class _GPSDemoState extends State<GPSDemo> {
   Position? _position;
+  bool _primaryUnitsLatLon = true;
 
   @override
   void initState() {
     super.initState();
     _determinePosition();
   }
-
-  Color buttonColor = Color.fromRGBO(203, 219, 188, 60);
 
   Future<void> _determinePosition() async {
     bool serviceEnabled;
@@ -49,179 +48,122 @@ class _GPSDemoState extends State<GPSDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Padding(padding: EdgeInsets.all(5)),
-          Column(
-            children: [
-              //Padding(padding: EdgeInsets.only(left: 50)),
-              Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.42)),
-                  Text(
-                    "Lat:",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _primaryUnitsLatLon = !_primaryUnitsLatLon;
+        });
+      },
+      child: Container(
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.all(5)),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.42)),
+                    Text(
+                      _primaryUnitsLatLon ? "Latitude:" : "Easting:",
+                      style: GoogleFonts.redHatDisplay(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.all(3)),
-                  Text(
-                    "${_position?.latitude?.toStringAsPrecision(7)}",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                    Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                      _primaryUnitsLatLon
+                          ? "${_position?.latitude?.toStringAsPrecision(7)}"
+                          : "112233",
+                      style: GoogleFonts.redHatDisplay(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.42)),
-                  Text(
-                    "Lon:",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.42)),
+                    Text(
+                      _primaryUnitsLatLon ? "Longitude:" : "Northing:",
+                      style: GoogleFonts.redHatDisplay(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.all(3)),
-                  Text(
-                    "${_position?.longitude?.toStringAsPrecision(7)}",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                    Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                      _primaryUnitsLatLon
+                          ? "${_position?.longitude?.toStringAsPrecision(7)}"
+                          : "1234567",
+                      style: GoogleFonts.redHatDisplay(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.42)),
-                  Text(
-                    "Alt:",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.42)),
+                    Text(
+                      "Altitude:",
+                      style: GoogleFonts.redHatDisplay(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.all(3)),
-                  Text(
-                    "${_position?.altitude?.toInt()} m",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                    Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                      "${_position?.altitude?.toInt()} m",
+                      style: GoogleFonts.redHatDisplay(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              //AltitudeScreen2(),
-              Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.42)),
-                  Text(
-                    "Easting:",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.42)),
+                    Text(
+                      "Speed:",
+                      style: GoogleFonts.redHatDisplay(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.all(3)),
-                  Text(
-                    "112233",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                    Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                      "${_position?.altitude?.toInt()} m",
+                      style: GoogleFonts.redHatDisplay(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.42)),
-                  Text(
-                    "Northing:",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.all(3)),
-                  Text(
-                    "1234567",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.42)),
-                  Text(
-                    "Speed:",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.all(3)),
-                  Text(
-                    "${_position?.altitude?.toInt()} m",
-                    style: GoogleFonts.redHatDisplay(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
