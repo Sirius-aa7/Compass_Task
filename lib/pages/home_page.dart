@@ -129,139 +129,143 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
               ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RoundedIconButton(
-                        icon: Icons.star,
-                        onPressed: _captureCompleteScreenshot,
+            Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RoundedIconButton(
+                            icon: Icons.star,
+                            onPressed: _captureCompleteScreenshot,
+                          ),
+                          RoundedIconButton(
+                            icon: Icons.settings,
+                            onPressed: () {
+                              print('Button Pressed!');
+                            },
+                          ),
+                        ],
                       ),
-                      RoundedIconButton(
-                        icon: Icons.settings,
-                        onPressed: () {
-                          print('Button Pressed!');
-                        },
+                    ),
+                    !_isCameraOn
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.45,
+                            width: MediaQuery.of(context).size.width * 1.2,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              fit: StackFit.passthrough,
+                              children: [
+                                Image.asset(
+                                  'assets/images/dial3.png',
+                                ),
+                                AnimatedRotation(
+                                    duration: Duration(milliseconds: 10),
+                                    curve: Curves.easeInOutCubic,
+                                    turns: compassRotation,
+                                    child: Image.asset(
+                                      'assets/images/CompassLabel.png',
+                                    )),
+                                Image.asset(
+                                  'assets/images/pointer.png',
+                                ),
+                                Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        '${degreeValue}°',
+                                        style: GoogleFonts.redHatDisplay(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w900,
+                                          color: const Color(0xFF4C4C4C),
+                                        ),
+                                      ),
+                                      Text(
+                                        '${_compassController.compassDirection}',
+                                        style: GoogleFonts.redHatDisplay(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(0xCC4C4C4C),
+                                        ),
+                                      ),
+                                      GeoLocationApp2(),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.45,
+                            width: MediaQuery.of(context).size.width * 1.2,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              fit: StackFit.passthrough,
+                              children: [
+                                AnimatedRotation(
+                                    duration: Duration(milliseconds: 10),
+                                    curve: Curves.easeInOutCubic,
+                                    turns: compassRotation,
+                                    child: Image.asset(
+                                      'assets/images/CompassLabel2.png',
+                                    )),
+                                Image.asset(
+                                  'assets/images/pointer.png',
+                                ),
+                                Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        '${degreeValue}°',
+                                        style: GoogleFonts.redHatDisplay(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.white),
+                                      ),
+                                      Text(
+                                        '${_compassController.compassDirection}',
+                                        style: GoogleFonts.redHatDisplay(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      GPSDemo(),
+                                      //GeoLocationApp3(),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RoundedIconButton(
+                            icon: Icons.location_on,
+                            onPressed: () {
+                              print('Button Pressed!');
+                            },
+                          ),
+                          RoundedIconButton(
+                            icon: Icons.camera_alt_rounded,
+                            onPressed: _toggleCamera,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    !_isCameraOn ? GeoLocationApp() : GeoLocationCameraOn(),
+                  ],
                 ),
-                !_isCameraOn
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        width: MediaQuery.of(context).size.width * 1.2,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          fit: StackFit.passthrough,
-                          children: [
-                            Image.asset(
-                              'assets/images/dial3.png',
-                            ),
-                            AnimatedRotation(
-                                duration: Duration(milliseconds: 10),
-                                curve: Curves.easeInOutCubic,
-                                turns: compassRotation,
-                                child: Image.asset(
-                                  'assets/images/CompassLabel.png',
-                                )),
-                            Image.asset(
-                              'assets/images/pointer.png',
-                            ),
-                            Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '${degreeValue}°',
-                                    style: GoogleFonts.redHatDisplay(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w900,
-                                      color: const Color(0xFF4C4C4C),
-                                    ),
-                                  ),
-                                  Text(
-                                    '${_compassController.compassDirection}',
-                                    style: GoogleFonts.redHatDisplay(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xCC4C4C4C),
-                                    ),
-                                  ),
-                                  GeoLocationApp2(),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        width: MediaQuery.of(context).size.width * 1.2,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          fit: StackFit.passthrough,
-                          children: [
-                            AnimatedRotation(
-                                duration: Duration(milliseconds: 10),
-                                curve: Curves.easeInOutCubic,
-                                turns: compassRotation,
-                                child: Image.asset(
-                                  'assets/images/CompassLabel2.png',
-                                )),
-                            Image.asset(
-                              'assets/images/pointer.png',
-                            ),
-                            Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '${degreeValue}°',
-                                    style: GoogleFonts.redHatDisplay(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white),
-                                  ),
-                                  Text(
-                                    '${_compassController.compassDirection}',
-                                    style: GoogleFonts.redHatDisplay(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  GPSDemo(),
-                                  //GeoLocationApp3(),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RoundedIconButton(
-                        icon: Icons.location_on,
-                        onPressed: () {
-                          print('Button Pressed!');
-                        },
-                      ),
-                      RoundedIconButton(
-                        icon: Icons.camera_alt_rounded,
-                        onPressed: _toggleCamera,
-                      ),
-                    ],
-                  ),
-                ),
-                !_isCameraOn ? GeoLocationApp() : GeoLocationCameraOn(),
-              ],
+              ),
             ),
           ],
         ),
@@ -269,3 +273,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+// // GeoLocationApp() has 4 cases with 2 toggle buttons
+
+// P-C for checking if Range calculation or Conversion in units
+// A-B for checking if primary units is Lat-Lon-Alt or E-N-Alt
+
+// when P-C and A-B  :: We are doing Range, Bearing and AOS calculation from
+// Lat-Lon-Alt values as input
+
+// when P-C and A->B :: We are doing Range, Bearing and AOS calculation from
+// E-N-Alt values as input
+
+// when P->C and A-B :: We are doing E-N-Alt calculation from Lat-Lon-Alt
+// values as input
+
+// when P->C and A->B :: We are doing Lat-Lan-Alt calculation from E-N-Alt
+// values as input
+
+// Similarly for GeoLocationCameraOn()
