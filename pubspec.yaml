@@ -30,6 +30,7 @@ dependencies:
   image_gallery_saver: ^1.7.0
   path_provider: ^2.0.2
   fluttertoast: ^8.0.8
+  sensors_plus: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,12 @@ flutter:
     - assets/images/CompassLabel.png
     - assets/images/CompassLabel2.png
     - assets/images/dial4.png
+    - assets/images/bgrdBubble.png
+    - assets/images/bgrdBubble2.png
+    - assets/images/bgrdBubble3.png
+    - assets/images/negativeBubble.png
+    - assets/images/highlight.png
+    - assets/images/kl.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

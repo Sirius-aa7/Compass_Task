@@ -1,3 +1,4 @@
+import 'package:arnv/pages/bubbleLevel.dart';
 import 'package:arnv/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      // home: BubbleLevelScreen(),
       home: HomePage(),
     );
   }

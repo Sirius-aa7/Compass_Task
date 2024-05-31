@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:arnv/controllers/compass_controller.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
+import 'bubbleLevel.dart';
 import 'buttons_beside_compass.dart';
 import 'lat_long.dart';
 import 'lat_long_2.dart';
@@ -23,6 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late CameraController _cameraController;
   late Future<void> _initializeCameraFuture;
+  final PageController _pageController = PageController();
   bool _isCameraOn = false;
 
   @override
@@ -153,57 +155,66 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     !_isCameraOn
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.45,
-                            width: MediaQuery.of(context).size.width * 1.2,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              fit: StackFit.passthrough,
-                              children: [
-                                Image.asset(
-                                  'assets/images/dial3.png',
-                                ),
-                                AnimatedRotation(
-                                    duration: Duration(milliseconds: 10),
-                                    curve: Curves.easeInOutCubic,
-                                    turns: compassRotation,
-                                    child: Image.asset(
-                                      'assets/images/CompassLabel.png',
-                                    )),
-                                Image.asset(
-                                  'assets/images/pointer.png',
-                                ),
-                                Center(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        '${degreeValue}°',
-                                        style: GoogleFonts.redHatDisplay(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w900,
-                                          color: const Color(0xFF4C4C4C),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${_compassController.compassDirection}',
-                                        style: GoogleFonts.redHatDisplay(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xCC4C4C4C),
-                                        ),
-                                      ),
-                                      GeoLocationApp2(),
-                                    ],
+                        ?
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.45,
+                              width: MediaQuery.of(context).size.width * 1.2,
+                              child: PageView(
+                                controller: _pageController,
+                                children:[
+                              Stack(
+                                alignment: Alignment.center,
+                                fit: StackFit.passthrough,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/dial3.png',
                                   ),
-                                ),
+                                  AnimatedRotation(
+                                      duration: Duration(milliseconds: 10),
+                                      curve: Curves.easeInOutCubic,
+                                      turns: compassRotation,
+                                      child: Image.asset(
+                                        'assets/images/CompassLabel.png',
+                                      )),
+                                  Image.asset(
+                                    'assets/images/pointer.png',
+                                  ),
+                                  Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '${degreeValue}°',
+                                          style: GoogleFonts.redHatDisplay(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w900,
+                                            color: const Color(0xFF4C4C4C),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${_compassController.compassDirection}',
+                                          style: GoogleFonts.redHatDisplay(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            color: const Color(0xCC4C4C4C),
+                                          ),
+                                        ),
+                                        GeoLocationApp2(),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              BubbleLevelScreen(),
                               ],
-                            ),
-                          )
+                            ),)
                         : SizedBox(
                             height: MediaQuery.of(context).size.height * 0.45,
                             width: MediaQuery.of(context).size.width * 1.2,
-                            child: Stack(
+                            child: PageView(
+                              controller: _pageController,
+                              children:[
+                            Stack(
                               alignment: Alignment.center,
                               fit: StackFit.passthrough,
                               children: [
@@ -242,7 +253,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ],
-                            ),
+                            ),BubbleLevelScreen2(),
+                              ],)
                           ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
