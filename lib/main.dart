@@ -1,7 +1,6 @@
-import 'package:arnv/pages/bubbleLevel.dart';
-import 'package:arnv/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:arnv/pages/home_page.dart';
 import 'package:arnv/controllers/compass_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +31,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: BubbleLevelScreen(),
       home: HomePage(),
     );
   }

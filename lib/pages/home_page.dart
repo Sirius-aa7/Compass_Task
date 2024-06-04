@@ -248,7 +248,6 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                       GPSDemo(),
-                                      //GeoLocationApp3(),
                                     ],
                                   ),
                                 ),
@@ -286,10 +285,11 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// // GeoLocationApp() has 4 cases with 2 toggle buttons
+// // GeoLocationApp() has 6 cases with 3 toggle buttons
 
 // P-C for checking if Range calculation or Conversion in units
 // A-B for checking if primary units is Lat-Lon-Alt or E-N-Alt
+// R-S for checking if primary input to Range, Bearing and AOS calcn
 
 // when P-C and A-B  :: We are doing Range, Bearing and AOS calculation from
 // Lat-Lon-Alt values as input

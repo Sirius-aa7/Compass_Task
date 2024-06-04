@@ -3,19 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
-class BubbleLevelApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Bubble Level',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: BubbleLevelScreen(),
-    );
-  }
-}
-
 class BubbleLevelScreen extends StatefulWidget {
   @override
   _BubbleLevelScreenState createState() => _BubbleLevelScreenState();
