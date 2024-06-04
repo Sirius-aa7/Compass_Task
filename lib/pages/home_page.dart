@@ -40,7 +40,8 @@ class _HomePageState extends State<HomePage> {
 
       _cameraController = CameraController(
         firstCamera,
-        ResolutionPreset.medium,
+        ResolutionPreset.high,
+        // ResolutionPreset.ultraHigh,
       );
 
       _initializeCameraFuture = _cameraController.initialize();
@@ -125,7 +126,10 @@ class _HomePageState extends State<HomePage> {
                 future: _initializeCameraFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    return CameraPreview(_cameraController);
+                    return AspectRatio(
+                      aspectRatio: _cameraController.value.aspectRatio,
+                      child: CameraPreview(_cameraController),
+                    );
                   } else {
                     return Center(child: CircularProgressIndicator());
                   }
