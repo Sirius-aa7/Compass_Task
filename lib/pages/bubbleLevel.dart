@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -42,6 +43,11 @@ class _BubbleLevelScreenState extends State<BubbleLevelScreen> {
     Color.fromRGBO(203, 219, 188, 10);
     Color bubbleColor3 = (_x.abs() < 0.1) ? Colors.orange : Colors.black;
     Color bubbleColor4 = (_y.abs() < 0.1) ? Colors.orange : Colors.black;
+
+    double a = double.parse(_x.toStringAsFixed(2));
+    a = ((a* (180/pi))%360);
+    double b = double.parse(_y.toStringAsFixed(2));
+    b = ((b* (180/pi))%360);
 
     // Clamping the values to keep the bubbles within the bounds of the bars
     double clampedX = (_x / 10).clamp(-10.0, 10.0);
@@ -139,15 +145,17 @@ class _BubbleLevelScreenState extends State<BubbleLevelScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          'Bearing(_x) value: ' + _x.toStringAsFixed(5) + '°',
+                          'Bearing(_x) value: ${a.toStringAsFixed(1)}°',
                           style: GoogleFonts.redHatDisplay(
+                            fontSize:  12,
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
                           ),
                         ),
                         Text(
-                          'AOS (_y) value: ' + _y.toStringAsFixed(5) + '°',
+                          'AOS (_y) value: ${b.toStringAsFixed(1)}°',
                           style: GoogleFonts.redHatDisplay(
+                            fontSize:  12,
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
                           ),
@@ -195,6 +203,10 @@ class _BubbleLevelScreen2State extends State<BubbleLevelScreen2> {
     Color bubbleColor3 = (_x.abs() < 0.1) ? Colors.orange : Colors.white;
     Color bubbleColor4 = (_y.abs() < 0.1) ? Colors.orange : Colors.white;
 
+    double a = double.parse(_x.toStringAsFixed(2));
+    a = ((a* (180/pi))%360);
+    double b = double.parse(_y.toStringAsFixed(2));
+    b = ((b* (180/pi))%360);
     // Clamping the values to keep the bubbles within the bounds of the bars
     double clampedX = (_x / 10).clamp(-10.0, 10.0);
     double clampedY = (_y / 10).clamp(-10.0, 10.0);
@@ -292,16 +304,18 @@ class _BubbleLevelScreen2State extends State<BubbleLevelScreen2> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        'Bearing(_x) value: ' + _x.toStringAsFixed(5) + '°',
+                        'Bearing(_x) value: ${a.toStringAsFixed(1)}°',
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
+                          fontSize: 12,
                           color: Colors.white,
                         ),
                       ),
                       Text(
-                        'AOS (_y) value: ' + _y.toStringAsFixed(5) + '°',
+                        'AOS(_y) value: ${b.toStringAsFixed(1)}°',
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
+                          fontSize: 12,
                           color: Colors.white,
                         ),
                       ),

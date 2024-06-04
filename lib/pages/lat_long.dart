@@ -152,7 +152,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     children: [
                       Padding(padding: EdgeInsets.only(left: 30)),
                       Text(
-                        "Point 1: ",
+                        "Point : ",
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           color: const Color(0xFF4C4C4C),
@@ -199,64 +199,12 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       ),
                     ],
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point 2:",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2LatController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lat 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2LonController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lon 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2AltController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
                   Row(
                     children: [
                       Padding(padding: EdgeInsets.only(left: 30)),
                       Text(
-                        "Point 1: ",
+                        "Point : ",
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           color: const Color(0xFF4C4C4C),
@@ -316,71 +264,6 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       ),
                     ],
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point 2:",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 45,
-                        child: TextField(
-                          controller: point1EastingController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'A1', // "12-34567 E"  Easting
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point2EastingController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: '  -  E', // "12-34567 E"  Easting
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point2NorthingController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: '  -  N', // "12-34567 N" Northing
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point2AltController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -392,7 +275,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     children: [
                       Padding(padding: EdgeInsets.only(left: 30)),
                       Text(
-                        "Point 1: ",
+                        "Point :",
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           color: const Color(0xFF4C4C4C),
@@ -439,64 +322,12 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       ),
                     ],
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point 2:",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2LatController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lat 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2LonController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lon 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2AltController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
                   Row(
                     children: [
                       Padding(padding: EdgeInsets.only(left: 30)),
                       Text(
-                        "Point 1: ",
+                        "Point :",
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           color: const Color(0xFF4C4C4C),
@@ -540,60 +371,6 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                           enabled: ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Alt 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point 2:",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      DropdownMenuExample(),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point2EastingController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: '  -  E', // "12-34567 E"  Easting
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point2NorthingController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: '  -  N', // "12-34567 N" Northing
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point2AltController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt 2',
                             border: OutlineInputBorder(),
                           ),
                         ),
