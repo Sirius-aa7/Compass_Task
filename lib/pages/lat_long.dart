@@ -3,8 +3,86 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'calculation.dart';
 import 'dropdownENA.dart';
+
+// class CalculatorScreen extends StatefulWidget {
+//   @override
+//   _CalculatorScreenState createState() => _CalculatorScreenState();
+// }
+//
+// class _CalculatorScreenState extends State<CalculatorScreen> {
+//   final TextEditingController _controllerA = TextEditingController();
+//   final TextEditingController _controllerB = TextEditingController();
+//   final Calculator _calculator = Calculator();
+//
+//   double _sum = 0.0;
+//   double _product = 0.0;
+//
+//   void _updateResults() {
+//     final double a = double.tryParse(_controllerA.text) ?? 0.0;
+//     final double b = double.tryParse(_controllerB.text) ?? 0.0;
+//     final results = _calculator.calculate(a, b);
+//     setState(() {
+//       _sum = results['sum'] ?? 0.0;
+//       _product = results['product'] ?? 0.0;
+//     });
+//   }
+//
+//   @override
+//   void dispose() {
+//     _controllerA.dispose();
+//     _controllerB.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           children: [
+//             TextField(
+//               controller: _controllerA,
+//               keyboardType: TextInputType.number,
+//               decoration: InputDecoration(
+//                 labelText: 'Input A',
+//               ),
+//               onChanged: (value) => _updateResults(),
+//             ),
+//             SizedBox(height: 16.0),
+//             TextField(
+//               controller: _controllerB,
+//               keyboardType: TextInputType.number,
+//               decoration: InputDecoration(
+//                 labelText: 'Input B',
+//               ),
+//               onChanged: (value) => _updateResults(),
+//             ),
+//             SizedBox(height: 16.0),
+//             TextField(
+//               readOnly: true,
+//               decoration: InputDecoration(
+//                 labelText: 'Sum',
+//               ),
+//               controller: TextEditingController(text: _sum.toString()),
+//             ),
+//             SizedBox(height: 16.0),
+//             TextField(
+//               readOnly: true,
+//               decoration: InputDecoration(
+//                 labelText: 'Product',
+//               ),
+//               controller: TextEditingController(text: _product.toString()),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
 
 class GeoLocationApp extends StatefulWidget {
   const GeoLocationApp({Key? key}) : super(key: key);
@@ -20,6 +98,14 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   bool sectionEnabled = false;
   bool ENAunit = false;
   bool reverseCalc = false;
+  final Calculator _calculator = Calculator();
+
+  TextEditingController pointLatConvertConttroller = TextEditingController();
+  TextEditingController pointLonConvertController = TextEditingController();
+  TextEditingController pointAltConvertConttroller = TextEditingController();
+  TextEditingController pointEastConvertConttroller = TextEditingController();
+  TextEditingController pointNortConvertController = TextEditingController();
+  TextEditingController pointZoneConvertController = TextEditingController();
 
   TextEditingController point1LatController = TextEditingController();
   TextEditingController point1LonController = TextEditingController();
@@ -73,6 +159,24 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   void initState() {
     super.initState();
     _initializeLocation();
+  }
+
+  void _updateResults() {
+    final double a = double.tryParse(pointLatConvertConttroller.text) ?? 0.0;
+    final double b = double.tryParse(pointLonConvertController.text) ?? 0.0;
+    final results = _calculator.calculateENA(a, b);
+    setState(() {
+      pointEastConvertConttroller.text = (results['sum'] ?? 0.0).toString();
+      pointNortConvertController.text = (results['product'] ?? 0.0).toString();
+      print("object clanc");
+    });
+  }
+
+  @override
+  void dispose() {
+    pointLatConvertConttroller.dispose();
+    pointLonConvertController.dispose();
+    super.dispose();
   }
 
   Future<void> _initializeLocation() async {
@@ -163,7 +267,9 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         height: 30,
                         width: 70,
                         child: TextField(
-                          controller: point1LatController,
+                          controller: pointLatConvertConttroller,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Lat 1',
@@ -176,7 +282,9 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         height: 30,
                         width: 70,
                         child: TextField(
-                          controller: point1LonController,
+                          controller: pointLonConvertController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Lon 1',
@@ -189,10 +297,12 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         height: 30,
                         width: 70,
                         child: TextField(
-                          controller: point1AltController,
+                          controller: pointAltConvertConttroller,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !ENAunit,
                           decoration: InputDecoration(
-                            labelText: 'Alt 1',
+                            labelText: 'Alt',
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -215,7 +325,9 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         height: 30,
                         width: 45,
                         child: TextField(
-                          controller: point1EastingController,
+                          controller: pointZoneConvertController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: ENAunit,
                           decoration: InputDecoration(
                             labelText: 'A1', // "12-34567 E"  Easting
@@ -228,7 +340,9 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         height: 30,
                         width: 60,
                         child: TextField(
-                          controller: point1EastingController,
+                          controller: pointNortConvertController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: ENAunit,
                           decoration: InputDecoration(
                             labelText: '  -  E', // "12-34567 E"  Easting
@@ -241,7 +355,9 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         height: 30,
                         width: 60,
                         child: TextField(
-                          controller: point1NorthingController,
+                          controller: pointEastConvertConttroller,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: ENAunit,
                           decoration: InputDecoration(
                             labelText: '  -  N', // "12-34567 N" Northing
@@ -254,10 +370,12 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         height: 30,
                         width: 60,
                         child: TextField(
-                          controller: point1AltController,
+                          controller: pointAltConvertConttroller,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: ENAunit,
                           decoration: InputDecoration(
-                            labelText: 'Alt 1',
+                            labelText: 'Alt',
                             border: OutlineInputBorder(),
                           ),
                         ),
