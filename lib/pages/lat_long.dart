@@ -100,6 +100,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   bool reverseCalc = false;
   final Calculator _calculator = Calculator();
 
+  // Text Editing Controllers for Lat-Lon-Alt to E-N-A interconversion
   TextEditingController pointLatConvertConttroller = TextEditingController();
   TextEditingController pointLonConvertController = TextEditingController();
   TextEditingController pointAltConvertConttroller = TextEditingController();
@@ -107,6 +108,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   TextEditingController pointNortConvertController = TextEditingController();
   TextEditingController pointZoneConvertController = TextEditingController();
 
+  // Text Editing Controllers for finding Range, Bearing,AOS from Lar-Lon-Alt to E-N-A interconversion
   TextEditingController point1LatController = TextEditingController();
   TextEditingController point1LonController = TextEditingController();
   TextEditingController point1AltController = TextEditingController();
@@ -162,21 +164,54 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   }
 
   void _updateResults() {
-    final double a = double.tryParse(pointLatConvertConttroller.text) ?? 0.0;
-    final double b = double.tryParse(pointLonConvertController.text) ?? 0.0;
-    final results = _calculator.calculateENA(a, b);
+    final double pointLatForConversion = double.tryParse(pointLatConvertConttroller.text) ?? 0.0;
+    final double pointLonForConversion = double.tryParse(pointLonConvertController.text) ?? 0.0;
+
+    final double point1LatForRange = double.tryParse(point1LatController.text) ?? 0.0;
+    final double point1LonForRange = double.tryParse(point1LonController.text) ?? 0.0;
+    final double point1AltForRange = double.tryParse(point1AltController.text) ?? 0.0;
+    final double point2LatForRange = double.tryParse(point2LatController.text) ?? 0.0;
+    final double point2LonForRange = double.tryParse(point2LonController.text) ?? 0.0;
+    final double point2AltForRange = double.tryParse(point2AltController.text) ?? 0.0;
+
+    final results;
+    final zone;
+    final distance;
+    final bearing;
+
+    if(sectionEnabled) {
+      zone = _calculator.calculateZone(pointLatForConversion, pointLonForConversion);
+      results = _calculator.calculateENA(pointLatForConversion, pointLonForConversion);
+    }
+    else {
+      zone = _calculator.calculateZone(pointLatForConversion, pointLonForConversion);
+      results = _calculator.calculateENA(pointLatForConversion, pointLonForConversion);
+    }
+
+    bearing = _calculator.calculateMapBearing(point1LatForRange,
+        point1LonForRange, point2LatForRange, point2LonForRange);
+    distance = _calculator.calculateDistanceLatLonAlt(point1LatForRange,
+        point1LonForRange, point1AltForRange, point2LatForRange,
+        point2LonForRange, point2AltForRange);
+
     setState(() {
-      pointEastConvertConttroller.text = (results['sum'] ?? 0.0).toString();
-      pointNortConvertController.text = (results['product'] ?? 0.0).toString();
+      pointZoneConvertController.text = (zone['zone'] ?? 0.0).toString();
+      pointEastConvertConttroller.text = (results['easting'] ?? 0.0).toString();
+      pointNortConvertController.text = (results['northing'] ?? 0.0).toString();
       print("object clanc");
+      distanceController.text = (distance['distance'] ?? 0.0).toString();
+      bearingController.text = (bearing['bearing'] ?? 0.0).toString();
+      print(distanceController.text.toString());
+      print(bearingController.text.toString());
+      print("done broo");
     });
   }
 
   @override
   void dispose() {
-    pointLatConvertConttroller.dispose();
-    pointLonConvertController.dispose();
-    super.dispose();
+    // pointLatConvertConttroller.dispose();
+    // pointLonConvertController.dispose();
+    // super.dispose();
   }
 
   Future<void> _initializeLocation() async {
@@ -247,6 +282,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
               ],
             ),
           ),
+
           // Conversion between Lat-Lon-Alt to ENA and vice versa
           if (sectionEnabled && !ENAunit)
             Container(
@@ -1272,6 +1308,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         width: 70,
                         child: TextField(
                           controller: point1LatController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !sectionEnabled && !ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Lat 1',
@@ -1285,6 +1323,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         width: 70,
                         child: TextField(
                           controller: point1LonController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !sectionEnabled && !ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Lon 1',
@@ -1298,6 +1338,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         width: 70,
                         child: TextField(
                           controller: point1AltController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !sectionEnabled && !ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Alt 1',
@@ -1324,6 +1366,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         width: 70,
                         child: TextField(
                           controller: point2LatController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !sectionEnabled && !ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Lat 2',
@@ -1337,6 +1381,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         width: 70,
                         child: TextField(
                           controller: point2LonController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !sectionEnabled && !ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Lon 2',
@@ -1350,6 +1396,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         width: 70,
                         child: TextField(
                           controller: point2AltController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
                           enabled: !sectionEnabled && !ENAunit,
                           decoration: InputDecoration(
                             labelText: 'Alt 2',
@@ -1379,9 +1427,10 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                         width: 165,
                         child: TextField(
                           controller: distanceController,
+                          onChanged: (value) => _updateResults(),
                           enabled: sectionEnabled,
                           decoration: InputDecoration(
-                            labelText: 'Calculated distance ',
+                            labelText: 'Calculated distance',
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),

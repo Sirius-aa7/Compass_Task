@@ -1,3 +1,4 @@
+import 'package:arnv/modules/module2.dart';
 import 'package:arnv/pages/sensorCode.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -114,6 +115,9 @@ class _HomePageState extends State<HomePage> {
       DeviceOrientation.portraitUp,
     ]);
 
+    // Need to call RadarChartScreen within MaterialApp or Scaffold widget,
+    // error otherwise
+    // return Scaffold(body: RadarChartScreen());
     return Scaffold(
       body: RepaintBoundary(
         key: _globalKey,
