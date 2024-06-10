@@ -9,6 +9,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 import 'package:arnv/controllers/compass_controller.dart';
 import 'package:flutter/services.dart';
+import 'package:torch_light/torch_light.dart';
 import 'dart:ui' as ui;
 import 'bubbleLevel.dart';
 import 'buttons_beside_compass.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   late Future<void> _initializeCameraFuture;
   final PageController _pageController = PageController();
   bool _isCameraOn = false;
+  bool _isTorchOn = false;
 
   @override
   void initState() {
@@ -145,13 +147,31 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 0),
+                      padding: const EdgeInsets.fromLTRB(16.0, 35.0, 16.0, 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RoundedIconButton(
                             icon: Icons.star,
                             onPressed: _captureCompleteScreenshot,
+                          ),
+                          RoundedIconButton(
+                            icon: Icons.flashlight_on,
+                            onPressed: () async {
+                              try {
+                                if (_isTorchOn) {
+                                  await TorchLight.disableTorch();
+                                } else {
+                                  await TorchLight.enableTorch();
+                                }
+                                setState(() {
+                                  _isTorchOn = !_isTorchOn;
+                                });
+                              } catch (e) {
+                                // Handle the exception here
+                                print('Error: $e');
+                              }
+                            },
                           ),
                           RoundedIconButton(
                             icon: Icons.settings,
@@ -264,12 +284,18 @@ class _HomePageState extends State<HomePage> {
                               ],)
                           ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                      padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RoundedIconButton(
                             icon: Icons.location_on,
+                            onPressed: () {
+                              print('Button Pressed!');
+                            },
+                          ),
+                          RoundedIconButton(
+                            icon: Icons.navigation_sharp,
                             onPressed: () {
                               print('Button Pressed!');
                             },

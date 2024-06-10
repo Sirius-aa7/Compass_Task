@@ -11,7 +11,7 @@ class BubbleLevelScreen extends StatefulWidget {
 class _BubbleLevelScreenState extends State<BubbleLevelScreen> {
   double _x = 0.0;
   double _y = 0.0;
-
+  double _z = 0.0;
   @override
   void initState() {
     super.initState();
@@ -19,6 +19,7 @@ class _BubbleLevelScreenState extends State<BubbleLevelScreen> {
       setState(() {
         _x = event.x;
         _y = event.y;
+        _z = event.z;
       });
     });
   }
@@ -31,10 +32,10 @@ class _BubbleLevelScreenState extends State<BubbleLevelScreen> {
     Color bubbleColor3 = (_x.abs() < 0.1) ? Colors.orange : Colors.black;
     Color bubbleColor4 = (_y.abs() < 0.1) ? Colors.orange : Colors.black;
 
-    double a = double.parse(_x.toStringAsFixed(2));
-    a = ((a* (180/pi))%360);
-    double b = double.parse(_y.toStringAsFixed(2));
-    b = ((b* (180/pi))%360);
+    // Calculate the horizontal angle
+    double horizontalAngle = atan2(_x, sqrt(_y * _y + _z * _z)) * 180 / pi;
+    // Calculate the vertical angle
+    double verticalAngle = atan2(_y, sqrt(_x * _x + _z * _z)) * 180 / pi;
 
     // Clamping the values to keep the bubbles within the bounds of the bars
     double clampedX = (_x / 10).clamp(-10.0, 10.0);
@@ -132,17 +133,17 @@ class _BubbleLevelScreenState extends State<BubbleLevelScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          'Bearing(_x) value: ${a.toStringAsFixed(1)}°',
+                          'Roll : ${(verticalAngle >= 0 ? 'U' : 'D')}${verticalAngle.abs().toStringAsFixed(1)}°',
                           style: GoogleFonts.redHatDisplay(
-                            fontSize:  12,
+                            fontSize: 12,
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
                           ),
                         ),
                         Text(
-                          'AOS (_y) value: ${b.toStringAsFixed(1)}°',
+                          'Pitch : ${horizontalAngle >= 0 ? 'R' : 'L'}${horizontalAngle.abs().toStringAsFixed(1)}°',
                           style: GoogleFonts.redHatDisplay(
-                            fontSize:  12,
+                            fontSize: 12,
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
                           ),
@@ -170,6 +171,7 @@ class BubbleLevelScreen2 extends StatefulWidget {
 class _BubbleLevelScreen2State extends State<BubbleLevelScreen2> {
   double _x = 0.0;
   double _y = 0.0;
+  double _z = 0.0;
 
   @override
   void initState() {
@@ -178,6 +180,7 @@ class _BubbleLevelScreen2State extends State<BubbleLevelScreen2> {
       setState(() {
         _x = event.x;
         _y = event.y;
+        _z = event.z;
       });
     });
   }
@@ -190,10 +193,11 @@ class _BubbleLevelScreen2State extends State<BubbleLevelScreen2> {
     Color bubbleColor3 = (_x.abs() < 0.1) ? Colors.orange : Colors.white;
     Color bubbleColor4 = (_y.abs() < 0.1) ? Colors.orange : Colors.white;
 
-    double a = double.parse(_x.toStringAsFixed(2));
-    a = ((a* (180/pi))%360);
-    double b = double.parse(_y.toStringAsFixed(2));
-    b = ((b* (180/pi))%360);
+    // Calculate the horizontal angle
+    double horizontalAngle = atan2(_x, sqrt(_y * _y + _z * _z)) * 180 / pi;
+    // Calculate the vertical angle
+    double verticalAngle = atan2(_y, sqrt(_x * _x + _z * _z)) * 180 / pi;
+
     // Clamping the values to keep the bubbles within the bounds of the bars
     double clampedX = (_x / 10).clamp(-10.0, 10.0);
     double clampedY = (_y / 10).clamp(-10.0, 10.0);
@@ -291,7 +295,7 @@ class _BubbleLevelScreen2State extends State<BubbleLevelScreen2> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        'Bearing(_x) value: ${a.toStringAsFixed(1)}°',
+                        'Roll : ${(verticalAngle >= 0 ? 'U' : 'D')}${verticalAngle.abs().toStringAsFixed(1)}°',
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           fontSize: 12,
@@ -299,7 +303,7 @@ class _BubbleLevelScreen2State extends State<BubbleLevelScreen2> {
                         ),
                       ),
                       Text(
-                        'AOS(_y) value: ${b.toStringAsFixed(1)}°',
+                        'Pitch : ${horizontalAngle >= 0 ? 'R' : 'L'}${horizontalAngle.abs().toStringAsFixed(1)}°',
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           fontSize: 12,

@@ -525,6 +525,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  torch_light:
+    dependency: "direct main"
+    description:
+      name: torch_light
+      sha256: a9d68d22616091438040c287e9c589b4f9214e4c4945b808206fa78f9f0b86cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   typed_data:
     dependency: transitive
     description:

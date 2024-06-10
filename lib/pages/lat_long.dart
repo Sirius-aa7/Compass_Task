@@ -1414,7 +1414,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Container(
                         width: 75,
                         child: Text(
-                          "Distance:",
+                          "Map Range:",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
