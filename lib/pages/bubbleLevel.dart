@@ -303,7 +303,7 @@ class _BubbleLevelScreen2State extends State<BubbleLevelScreen2> {
                         ),
                       ),
                       Text(
-                        'Pitch : ${horizontalAngle >= 0 ? 'R' : 'L'}${horizontalAngle.abs().toStringAsFixed(1)}°',
+                        'Pitch : ${horizontalAngle >= 0 ? 'L' : 'R'}${horizontalAngle.abs().toStringAsFixed(1)}°',
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           fontSize: 12,
