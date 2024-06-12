@@ -62,109 +62,73 @@ class _GeoLocationApp2State extends State<GeoLocationApp2> {
             Padding(padding: EdgeInsets.all(5)),
             Column(
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.42),
-                    ),
-                    Text(
-                      _primaryUnitsLatLon ? "Latitude:" : "Easting:",
+                Text(
+                      _primaryUnitsLatLon ? "LATITUDE:" : "EASTING:",
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF4C4C4C),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(3)),
                     Text(
                       _primaryUnitsLatLon
                           ? "${_position?.latitude?.toStringAsPrecision(7)}"
                           : "112233", // Placeholder for Easting
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF4C4C4C),
                       ),
-                    ),
-                  ],
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.42),
-                    ),
                     Text(
-                      _primaryUnitsLatLon ? "Longitude:" : "Northing:",
+                      _primaryUnitsLatLon ? "LONGITUDE:" : "NORTHING:",
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF4C4C4C),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(3)),
                     Text(
                       _primaryUnitsLatLon
                           ? "${_position?.longitude?.toStringAsPrecision(7)}"
                           : "1234567", // Placeholder for Northing
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF4C4C4C),
                       ),
-                    ),
-                  ],
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.42),
-                    ),
                     Text(
-                      "Altitude:",
+                      "ALTITUDE:",
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF4C4C4C),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(3)),
                     Text(
                       "${_position?.altitude?.toInt()} m",
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF4C4C4C),
                       ),
-                    ),
-                  ],
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.42),
-                    ),
                     Text(
-                      "Speed:",
+                      "SPEED:",
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF4C4C4C),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(3)),
                     Text(
                       "${_position?.speed?.toStringAsFixed(2) ?? '0'} m/s",
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF4C4C4C),
                       ),
-                    ),
-                  ],
                 ),
               ],
             ),

@@ -21,6 +21,6 @@ class CompassController with ChangeNotifier {
   @override
   void dispose() {
     _compassSubscription?.cancel();
-    super.dispose();
+    // super.dispose();
   }
 }

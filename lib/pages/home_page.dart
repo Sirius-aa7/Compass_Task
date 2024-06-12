@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _cameraController.dispose();
-    super.dispose();
+    // super.dispose();
   }
 
   void _toggleCamera() async {
@@ -119,203 +119,213 @@ class _HomePageState extends State<HomePage> {
 
     // Need to call RadarChartScreen within MaterialApp or Scaffold widget,
     // error otherwise
-    return Scaffold(body: RadarChartScreen());
-    // return Scaffold(
-    //   body: RepaintBoundary(
-    //     key: _globalKey,
-    //     child: Stack(
-    //       alignment: Alignment.center,
-    //       fit: StackFit.expand,
-    //       children: [
-    //         if (_isCameraOn)
-    //           FutureBuilder<void>(
-    //             future: _initializeCameraFuture,
-    //             builder: (context, snapshot) {
-    //               if (snapshot.connectionState == ConnectionState.done) {
-    //                 return AspectRatio(
-    //                   aspectRatio: _cameraController.value.aspectRatio,
-    //                   child: CameraPreview(_cameraController),
-    //                 );
-    //               } else {
-    //                 return Center(child: CircularProgressIndicator());
-    //               }
-    //             },
-    //           ),
-    //         Container(
-    //           child: SingleChildScrollView(
-    //             child: Column(
-    //               mainAxisAlignment: MainAxisAlignment.start,
-    //               children: [
-    //                 Padding(
-    //                   padding: const EdgeInsets.fromLTRB(16.0, 35.0, 16.0, 5),
-    //                   child: Row(
-    //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                     children: [
-    //                       RoundedIconButton(
-    //                         icon: Icons.star,
-    //                         onPressed: _captureCompleteScreenshot,
-    //                       ),
-    //                       RoundedIconButton(
-    //                         icon: Icons.flashlight_on,
-    //                         onPressed: () async {
-    //                           try {
-    //                             if (_isTorchOn) {
-    //                               await TorchLight.disableTorch();
-    //                             } else {
-    //                               await TorchLight.enableTorch();
-    //                             }
-    //                             setState(() {
-    //                               _isTorchOn = !_isTorchOn;
-    //                             });
-    //                           } catch (e) {
-    //                             // Handle the exception here
-    //                             print('Error: $e');
-    //                           }
-    //                         },
-    //                       ),
-    //                       RoundedIconButton(
-    //                         icon: Icons.settings,
-    //                         onPressed: () {
-    //                           print('Button Pressed!');
-    //                         },
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 !_isCameraOn
-    //                     ?
-    //                         SizedBox(
-    //                           height: MediaQuery.of(context).size.height * 0.45,
-    //                           width: MediaQuery.of(context).size.width * 1.2,
-    //                           child: PageView(
-    //                             controller: _pageController,
-    //                             children:[
-    //                           Stack(
-    //                             alignment: Alignment.center,
-    //                             fit: StackFit.passthrough,
-    //                             children: [
-    //                               Image.asset(
-    //                                 'assets/images/dial3.png',
-    //                               ),
-    //                               AnimatedRotation(
-    //                                   duration: Duration(milliseconds: 10),
-    //                                   curve: Curves.easeInOutCubic,
-    //                                   turns: compassRotation,
-    //                                   child: Image.asset(
-    //                                     'assets/images/CompassLabel.png',
-    //                                   )),
-    //                               Image.asset(
-    //                                 'assets/images/pointer.png',
-    //                               ),
-    //                               Center(
-    //                                 child: Column(
-    //                                   mainAxisSize: MainAxisSize.min,
-    //                                   children: [
-    //                                     Text(
-    //                                       '${degreeValue}°',
-    //                                       style: GoogleFonts.redHatDisplay(
-    //                                         fontSize: 25,
-    //                                         fontWeight: FontWeight.w900,
-    //                                         color: const Color(0xFF4C4C4C),
-    //                                       ),
-    //                                     ),
-    //                                     Text(
-    //                                       '${_compassController.compassDirection}',
-    //                                       style: GoogleFonts.redHatDisplay(
-    //                                         fontSize: 10,
-    //                                         fontWeight: FontWeight.bold,
-    //                                         color: const Color(0xCC4C4C4C),
-    //                                       ),
-    //                                     ),
-    //                                     GeoLocationApp2(),
-    //                                   ],
-    //                                 ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                           BubbleLevelScreen(),
-    //                           ],
-    //                         ),)
-    //                     : SizedBox(
-    //                         height: MediaQuery.of(context).size.height * 0.45,
-    //                         width: MediaQuery.of(context).size.width * 1.2,
-    //                         child: PageView(
-    //                           controller: _pageController,
-    //                           children:[
-    //                         Stack(
-    //                           alignment: Alignment.center,
-    //                           fit: StackFit.passthrough,
-    //                           children: [
-    //                             AnimatedRotation(
-    //                                 duration: Duration(milliseconds: 10),
-    //                                 curve: Curves.easeInOutCubic,
-    //                                 turns: compassRotation,
-    //                                 child: Image.asset(
-    //                                   'assets/images/CompassLabel2.png',
-    //                                 )),
-    //                             Image.asset(
-    //                               'assets/images/pointer.png',
-    //                             ),
-    //                             Center(
-    //                               child: Column(
-    //                                 mainAxisSize: MainAxisSize.min,
-    //                                 children: [
-    //                                   Text(
-    //                                     '${degreeValue}°',
-    //                                     style: GoogleFonts.redHatDisplay(
-    //                                         fontSize: 25,
-    //                                         fontWeight: FontWeight.w900,
-    //                                         color: Colors.white),
-    //                                   ),
-    //                                   Text(
-    //                                     '${_compassController.compassDirection}',
-    //                                     style: GoogleFonts.redHatDisplay(
-    //                                       fontSize: 10,
-    //                                       fontWeight: FontWeight.bold,
-    //                                       color: Colors.white,
-    //                                     ),
-    //                                   ),
-    //                                   GPSDemo(),
-    //                                 ],
-    //                               ),
-    //                             ),
-    //                           ],
-    //                         ),BubbleLevelScreen2(),
-    //                           ],)
-    //                       ),
-    //                 Padding(
-    //                   padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16.0),
-    //                   child: Row(
-    //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                     children: [
-    //                       RoundedIconButton(
-    //                         icon: Icons.location_on,
-    //                         onPressed: () {
-    //                           print('Button Pressed!');
-    //                         },
-    //                       ),
-    //                       RoundedIconButton(
-    //                         icon: Icons.navigation_sharp,
-    //                         onPressed: () {
-    //                           print('Button Pressed!');
-    //                         },
-    //                       ),
-    //                       RoundedIconButton(
-    //                         icon: Icons.camera_alt_rounded,
-    //                         onPressed: _toggleCamera,
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 !_isCameraOn ? GeoLocationApp() : GeoLocationCameraOn(),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+    // return Scaffold(body: RadarChartScreen());
+    return Scaffold(
+      body: RepaintBoundary(
+        key: _globalKey,
+        child: Stack(
+          alignment: Alignment.center,
+          fit: StackFit.expand,
+          children: [
+            if (_isCameraOn)
+              FutureBuilder<void>(
+                future: _initializeCameraFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return AspectRatio(
+                      aspectRatio: _cameraController.value.aspectRatio,
+                      child: CameraPreview(_cameraController),
+                    );
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 35.0, 16.0, 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RoundedIconButton(
+                            icon: Icons.star,
+                            onPressed: _captureCompleteScreenshot,
+                          ),
+                          RoundedIconButton(
+                            icon: Icons.flashlight_on,
+                            onPressed: () async {
+                              try {
+                                if (_isTorchOn) {
+                                  await TorchLight.disableTorch();
+                                } else {
+                                  await TorchLight.enableTorch();
+                                }
+                                setState(() {
+                                  _isTorchOn = !_isTorchOn;
+                                });
+                              } catch (e) {
+                                // Handle the exception here
+                                print('Error: $e');
+                              }
+                            },
+                          ),
+                          RoundedIconButton(
+                            icon: Icons.settings,
+                            onPressed: () {
+                              print('Button Pressed!');
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    !_isCameraOn
+                        ?
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.45,
+                              width: MediaQuery.of(context).size.width * 1.2,
+                              child: PageView(
+                                controller: _pageController,
+                                children:[
+                              Stack(
+                                alignment: Alignment.center,
+                                fit: StackFit.passthrough,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/dial3.png',
+                                  ),
+                                  AnimatedRotation(
+                                      duration: Duration(milliseconds: 10),
+                                      curve: Curves.easeInOutCubic,
+                                      turns: compassRotation,
+                                      child: Image.asset(
+                                        'assets/images/CompassLabel.png',
+                                      )),
+                                  // SizedBox(
+                                  //   width: 3,
+                                  //   height: 3,
+                                  //   child: Image.asset(
+                                  //     'assets/images/pointer.png',
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
+                                  Image.asset(
+                                    'assets/images/pointer.png',
+                                     fit: BoxFit.scaleDown,
+                                  ),
+                                  Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '${degreeValue}° '
+                                              '${_compassController.compassDirection}',
+                                          style: GoogleFonts.redHatDisplay(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w900,
+                                            color: const Color(0xFF4C4C4C),
+                                          ),
+                                        ),
+                                        // Text(
+                                        //   '${_compassController.compassDirection}',
+                                        //   style: GoogleFonts.redHatDisplay(
+                                        //     fontSize: 10,
+                                        //     fontWeight: FontWeight.bold,
+                                        //     color: const Color(0xCC4C4C4C),
+                                        //   ),
+                                        // ),
+                                        GeoLocationApp2(),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              BubbleLevelScreen(),
+                              ],
+                            ),)
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.45,
+                            width: MediaQuery.of(context).size.width * 1.2,
+                            child: PageView(
+                              controller: _pageController,
+                              children:[
+                            Stack(
+                              alignment: Alignment.center,
+                              fit: StackFit.passthrough,
+                              children: [
+                                AnimatedRotation(
+                                    duration: Duration(milliseconds: 10),
+                                    curve: Curves.easeInOutCubic,
+                                    turns: compassRotation,
+                                    child: Image.asset(
+                                      'assets/images/CompassLabel2.png',
+                                    )),
+                                Image.asset(
+                                  'assets/images/pointer.png',
+                                ),
+                                Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        '${degreeValue}°',
+                                        style: GoogleFonts.redHatDisplay(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.white),
+                                      ),
+                                      Text(
+                                        '${_compassController.compassDirection}',
+                                        style: GoogleFonts.redHatDisplay(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      GPSDemo(),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),BubbleLevelScreen2(),
+                              ],)
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RoundedIconButton(
+                            icon: Icons.location_on,
+                            onPressed: () {
+                              print('Button Pressed!');
+                            },
+                          ),
+                          RoundedIconButton(
+                            icon: Icons.navigation_sharp,
+                            onPressed: () {
+                              print('Button Pressed!');
+                            },
+                          ),
+                          RoundedIconButton(
+                            icon: Icons.camera_alt_rounded,
+                            onPressed: _toggleCamera,
+                          ),
+                        ],
+                      ),
+                    ),
+                    !_isCameraOn ? GeoLocationApp() : GeoLocationCameraOn(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
