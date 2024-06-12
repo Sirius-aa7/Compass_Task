@@ -52,6 +52,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Main Page'),
+        backgroundColor: Color.fromRGBO(203, 219, 188, 10),
         actions: [
           PopupMenuButton<int>(
             onSelected: (int index) {
