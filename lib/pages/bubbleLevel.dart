@@ -84,10 +84,10 @@ class _BubbleLevelScreenState extends State<BubbleLevelScreen> {
                         // Vertical bar
                         Positioned(
                           left: screenWidth * 6 / 8 - 2,
-                          top: screenWidth*0.4 - 100,
+                          top: screenWidth*0.4 - 90,
                           child: Container(
                             width: 20,
-                            height: 200,
+                            height: 180,
                             color: Color.fromRGBO(203, 219, 188, 10),
                             child: Align(
                               alignment: Alignment(0, - clampedY),

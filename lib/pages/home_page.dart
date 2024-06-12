@@ -149,103 +149,194 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16.0, 35.0, 16.0, 5),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           RoundedIconButton(
                             icon: Icons.star,
                             onPressed: _captureCompleteScreenshot,
-                          ),
-                          RoundedIconButton(
-                            icon: Icons.flashlight_on,
-                            onPressed: () async {
-                              try {
-                                if (_isTorchOn) {
-                                  await TorchLight.disableTorch();
-                                } else {
-                                  await TorchLight.enableTorch();
-                                }
-                                setState(() {
-                                  _isTorchOn = !_isTorchOn;
-                                });
-                              } catch (e) {
-                                // Handle the exception here
-                                print('Error: $e');
-                              }
-                            },
-                          ),
-                          RoundedIconButton(
-                            icon: Icons.settings,
-                            onPressed: () {
-                              print('Button Pressed!');
-                            },
                           ),
                         ],
                       ),
                     ),
                     !_isCameraOn
                         ?
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.45,
-                              width: MediaQuery.of(context).size.width * 1.2,
-                              child: PageView(
-                                controller: _pageController,
-                                children:[
-                              Stack(
-                                alignment: Alignment.center,
-                                fit: StackFit.passthrough,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/dial3.png',
-                                  ),
-                                  AnimatedRotation(
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      width: MediaQuery.of(context).size.width * 1.2,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: 10,
+                            left: 10,
+                            child: RoundedIconButton(
+                              icon: Icons.flashlight_on,
+                              onPressed: () async {
+                                try {
+                                  if (_isTorchOn) {
+                                    await TorchLight.disableTorch();
+                                  } else {
+                                    await TorchLight.enableTorch();
+                                  }
+                                  setState(() {
+                                    _isTorchOn = !_isTorchOn;
+                                  });
+                                } catch (e) {
+                                  // Handle the exception here
+                                  print('Error: $e');
+                                }
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            top: 10,
+                            right: 10,
+                            child: RoundedIconButton(
+                              icon: Icons.settings,
+                              onPressed: () {
+                                print('Button Pressed!');
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child: RoundedIconButton(
+                              icon: Icons.location_on,
+                              onPressed: () {
+                                print('Button Pressed!');
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            right: 10,
+                            child: RoundedIconButton(
+                              icon: Icons.camera_alt_rounded,
+                              onPressed: _toggleCamera,
+                            ),
+                          ),
+
+                          // RoundedIconButton(
+                          //   icon: Icons.settings,
+                          //   onPressed: () {
+                          //     print('Button Pressed!');
+                          //   },
+                          // ),
+                          Expanded(
+                            child: PageView(
+                              controller: _pageController,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  fit: StackFit.passthrough,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/dial3.png',
+                                    ),
+                                    AnimatedRotation(
                                       duration: Duration(milliseconds: 10),
                                       curve: Curves.easeInOutCubic,
                                       turns: compassRotation,
                                       child: Image.asset(
                                         'assets/images/CompassLabel.png',
-                                      )),
-                                  // SizedBox(
-                                  //   width: 3,
-                                  //   height: 3,
-                                  //   child: Image.asset(
-                                  //     'assets/images/pointer.png',
-                                  //     fit: BoxFit.cover,
-                                  //   ),
-                                  // ),
-                                  Image.asset(
-                                    'assets/images/pointer.png',
-                                     fit: BoxFit.scaleDown,
-                                  ),
-                                  Center(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          '${degreeValue}° '
-                                              '${_compassController.compassDirection}',
-                                          style: GoogleFonts.redHatDisplay(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w900,
-                                            color: const Color(0xFF4C4C4C),
-                                          ),
-                                        ),
-                                        // Text(
-                                        //   '${_compassController.compassDirection}',
-                                        //   style: GoogleFonts.redHatDisplay(
-                                        //     fontSize: 10,
-                                        //     fontWeight: FontWeight.bold,
-                                        //     color: const Color(0xCC4C4C4C),
-                                        //   ),
-                                        // ),
-                                        GeoLocationApp2(),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              BubbleLevelScreen(),
+                                    Image.asset(
+                                      'assets/images/pointer.png',
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                    Center(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            '${degreeValue}° ${_compassController.compassDirection}',
+                                            style: GoogleFonts.redHatDisplay(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w900,
+                                              color: const Color(0xFF4C4C4C),
+                                            ),
+                                          ),
+                                          GeoLocationApp2(),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                BubbleLevelScreen(),
                               ],
-                            ),)
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+
+                    // SizedBox(
+                            //   height: MediaQuery.of(context).size.height * 0.45,
+                            //   width: MediaQuery.of(context).size.width * 1.2,
+                            //   child: Column(
+                            //     children: [
+                            //       PageView(
+                            //         controller: _pageController,
+                            //         children:[
+                            //       Stack(
+                            //         alignment: Alignment.center,
+                            //         fit: StackFit.passthrough,
+                            //         children: [
+                            //           Image.asset(
+                            //             'assets/images/dial3.png',
+                            //           ),
+                            //           AnimatedRotation(
+                            //               duration: Duration(milliseconds: 10),
+                            //               curve: Curves.easeInOutCubic,
+                            //               turns: compassRotation,
+                            //               child: Image.asset(
+                            //                 'assets/images/CompassLabel.png',
+                            //               )),
+                            //           // SizedBox(
+                            //           //   width: 3,
+                            //           //   height: 3,
+                            //           //   child: Image.asset(
+                            //           //     'assets/images/pointer.png',
+                            //           //     fit: BoxFit.cover,
+                            //           //   ),
+                            //           // ),
+                            //           Image.asset(
+                            //             'assets/images/pointer.png',
+                            //              fit: BoxFit.scaleDown,
+                            //           ),
+                            //           Center(
+                            //             child: Column(
+                            //               mainAxisSize: MainAxisSize.min,
+                            //               children: [
+                            //                 Text(
+                            //                   '${degreeValue}° '
+                            //                       '${_compassController.compassDirection}',
+                            //                   style: GoogleFonts.redHatDisplay(
+                            //                     fontSize: 20,
+                            //                     fontWeight: FontWeight.w900,
+                            //                     color: const Color(0xFF4C4C4C),
+                            //                   ),
+                            //                 ),
+                            //                 // Text(
+                            //                 //   '${_compassController.compassDirection}',
+                            //                 //   style: GoogleFonts.redHatDisplay(
+                            //                 //     fontSize: 10,
+                            //                 //     fontWeight: FontWeight.bold,
+                            //                 //     color: const Color(0xCC4C4C4C),
+                            //                 //   ),
+                            //                 // ),
+                            //                 GeoLocationApp2(),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       BubbleLevelScreen(),
+                            //       ],
+                            // ),
+                            //     ],
+                            //   ),)
                         : SizedBox(
                             height: MediaQuery.of(context).size.height * 0.45,
                             width: MediaQuery.of(context).size.width * 1.2,
@@ -294,26 +385,26 @@ class _HomePageState extends State<HomePage> {
                               ],)
                           ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16.0),
+                      padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          RoundedIconButton(
-                            icon: Icons.location_on,
-                            onPressed: () {
-                              print('Button Pressed!');
-                            },
-                          ),
+                          // RoundedIconButton(
+                          //   icon: Icons.location_on,
+                          //   onPressed: () {
+                          //     print('Button Pressed!');
+                          //   },
+                          // ),
                           RoundedIconButton(
                             icon: Icons.navigation_sharp,
                             onPressed: () {
                               print('Button Pressed!');
                             },
                           ),
-                          RoundedIconButton(
-                            icon: Icons.camera_alt_rounded,
-                            onPressed: _toggleCamera,
-                          ),
+                          // RoundedIconButton(
+                          //   icon: Icons.camera_alt_rounded,
+                          //   onPressed: _toggleCamera,
+                          // ),
                         ],
                       ),
                     ),
