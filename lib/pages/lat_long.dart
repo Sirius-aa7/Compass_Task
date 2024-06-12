@@ -227,7 +227,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -1412,9 +1412,19 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     children: [
                       Padding(padding: EdgeInsets.only(left: 30)),
                       Container(
-                        width: 75,
+                        width: 95,
                         child: Text(
-                          "Map Range:",
+                          "Map Range",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
@@ -1424,13 +1434,13 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Padding(padding: EdgeInsets.all(10)),
                       Container(
                         height: 30,
-                        width: 165,
+                        width: 160,
                         child: TextField(
                           controller: distanceController,
                           onChanged: (value) => _updateResults(),
                           enabled: sectionEnabled,
                           decoration: InputDecoration(
-                            labelText: 'Calculated distance',
+                            labelText: 'Map Range (km)',
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
@@ -1445,9 +1455,19 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     children: [
                       Padding(padding: EdgeInsets.only(left: 30)),
                       Container(
-                        width: 75,
+                        width: 95,
                         child: Text(
-                          "Range:",
+                          "Aerial Range",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
@@ -1457,12 +1477,13 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Padding(padding: EdgeInsets.all(10)),
                       Container(
                         height: 30,
-                        width: 165,
+                        width: 160, // 165
                         child: TextField(
                           controller: rangeController,
                           enabled: sectionEnabled,
                           decoration: InputDecoration(
-                            labelText: 'Calculated range ', // "471"
+                            // labelText: 'Calculated range ', // "471"
+                            labelText: 'Aerial Range (km)',
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
@@ -1477,9 +1498,19 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     children: [
                       Padding(padding: EdgeInsets.only(left: 30)),
                       Container(
-                        width: 75,
+                        width: 95,
                         child: Text(
-                          "Bearing:",
+                          "Bearing",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
@@ -1489,12 +1520,15 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Padding(padding: EdgeInsets.all(10)),
                       Container(
                         height: 30,
-                        width: 165,
+                        width: 60,
                         child: TextField(
-                          controller: bearingController,
+                          // controller: _angleDeg2Controller,
                           enabled: sectionEnabled,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
                           decoration: InputDecoration(
-                            labelText: 'Calculated bearing', //"4712356"
+                            labelText: ' dd °',
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
@@ -1502,6 +1536,42 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Container(
+                        height: 30,
+                        width: 60,
+                        child: TextField(
+                          // controller: _angleMin2Controller,
+                          enabled: sectionEnabled,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
+                          decoration: InputDecoration(
+                            labelText: " min '",
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Container(
+                      //   height: 30,
+                      //   width: 165,
+                      //   child: TextField(
+                      //     controller: bearingController,
+                      //     enabled: sectionEnabled,
+                      //     decoration: InputDecoration(
+                      //       labelText: 'Calculated bearing', //"4712356"
+                      //       border: OutlineInputBorder(),
+                      //       disabledBorder: OutlineInputBorder(
+                      //         borderSide: BorderSide(color: Colors.blue),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
@@ -1509,9 +1579,19 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     children: [
                       Padding(padding: EdgeInsets.only(left: 30)),
                       Container(
-                        width: 75,
+                        width: 95,
                         child: Text(
-                          "AOS:",
+                          "AOS",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
@@ -1521,12 +1601,15 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Padding(padding: EdgeInsets.all(10)),
                       Container(
                         height: 30,
-                        width: 165,
+                        width: 60,
                         child: TextField(
-                          controller: aosController,
+                          // controller: _angleDeg2Controller,
                           enabled: sectionEnabled,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
                           decoration: InputDecoration(
-                            labelText: 'Calculated AOS ', //"47.6"
+                            labelText: ' dd °',
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
@@ -1534,6 +1617,42 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Container(
+                        height: 30,
+                        width: 60,
+                        child: TextField(
+                          // controller: _angleMin2Controller,
+                          enabled: sectionEnabled,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
+                          decoration: InputDecoration(
+                            labelText: " min '",
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Container(
+                      //   height: 30,
+                      //   width: 165,
+                      //   child: TextField(
+                      //     controller: aosController,
+                      //     enabled: sectionEnabled,
+                      //     decoration: InputDecoration(
+                      //       labelText: 'Calculated AOS ', //"47.6"
+                      //       border: OutlineInputBorder(),
+                      //       disabledBorder: OutlineInputBorder(
+                      //         borderSide: BorderSide(color: Colors.blue),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
