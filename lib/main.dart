@@ -145,7 +145,7 @@ class MainPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Screen1()),
+                        MaterialPageRoute(builder: (context) => HomePage()),
                       );
                     },
                     child: Text('Module 1'),
