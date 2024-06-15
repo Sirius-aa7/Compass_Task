@@ -93,7 +93,7 @@ class MainPage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Screen1()),
+                  MaterialPageRoute(builder: (context) => HomePage()),
                 );
               },
             ),
@@ -156,30 +156,30 @@ class MainPage extends StatelessWidget {
             ),
           ),
           Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children:
-                  [Column(
-                    children: [
-                      Image.asset('assets/images/CompassLabel.png', width:100, height:100),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(203, 219, 188, 10),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Screen2()),
-                          );
-                        },
-                        child: Text('Module 2'),
-                      ),
-                    ],
+            padding: const EdgeInsets.only(right: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children:
+              [Column(
+                children: [
+                  Image.asset('assets/images/CompassLabel.png', width:100, height:100),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(203, 219, 188, 10),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Screen2()),
+                      );
+                    },
+                    child: Text('Module 2'),
                   ),
                 ],
-                ),
               ),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 30),
             child: Row(
@@ -236,7 +236,14 @@ class MainPage extends StatelessWidget {
   }
 }
 
-class Screen1 extends StatelessWidget {
+class Screen1 extends StatefulWidget {
+  const Screen1({super.key});
+
+  @override
+  State<Screen1> createState() => _Screen1State();
+}
+
+class _Screen1State extends State<Screen1> {
   @override
   Widget build(BuildContext context) {
     return SwipeNavigator(
@@ -247,7 +254,14 @@ class Screen1 extends StatelessWidget {
   }
 }
 
-class Screen2 extends StatelessWidget {
+class Screen2 extends StatefulWidget {
+  const Screen2({super.key});
+
+  @override
+  State<Screen2> createState() => _Screen2State();
+}
+
+class _Screen2State extends State<Screen2> {
   @override
   Widget build(BuildContext context) {
     return SwipeNavigator(
@@ -258,13 +272,23 @@ class Screen2 extends StatelessWidget {
   }
 }
 
-class Screen3 extends StatelessWidget {
+class Screen3 extends StatefulWidget {
+  const Screen3({super.key});
+
+  @override
+  State<Screen3> createState() => _Screen3State();
+}
+
+class _Screen3State extends State<Screen3> {
   @override
   Widget build(BuildContext context) {
     return SwipeNavigator(
       child: Scaffold(
-        appBar: AppBar(title: Text('Screen 3')),
-        body: Center(child: Text('Screen 3')),
+        body: Column(
+          children: [
+            BubbleLevelScreen(),
+          ],
+        ),
       ),
     );
   }
