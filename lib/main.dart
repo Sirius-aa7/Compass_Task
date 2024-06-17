@@ -1,4 +1,5 @@
 import 'package:arnv/modules/module2.dart';
+import 'package:arnv/modules/module3.dart';
 import 'package:arnv/pages/bubbleLevel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -284,11 +285,7 @@ class _Screen3State extends State<Screen3> {
   Widget build(BuildContext context) {
     return SwipeNavigator(
       child: Scaffold(
-        body: Column(
-          children: [
-            BubbleLevelScreen(),
-          ],
-        ),
+        body: TargetChart(),
       ),
     );
   }

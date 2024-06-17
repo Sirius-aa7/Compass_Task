@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
           .findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage(pixelRatio: 4.0);
       ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List screenshot = byteData!.buffer.asUint8List();
 
       final result = await ImageGallerySaver.saveImage(screenshot);
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final CompassController _compassController =
-        context.watch<CompassController>();
+    context.watch<CompassController>();
     final double _screenWidth = MediaQuery.of(context).size.width;
     final double _screenHeight = MediaQuery.of(context).size.height;
     int? degreeValue = _compassController.compassHeading?.round();
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     double? compassRotation =
-        degreeValue != null ? -(degreeValue / 360.0) : 0.0;
+    degreeValue != null ? -(degreeValue / 360.0) : 0.0;
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -167,121 +167,27 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // RoundedIconButton(
-                          //   icon: Icons.star,
-                          //   onPressed: _captureCompleteScreenshot,
-                          // ),
                           RoundedIconButton(
-                              icon: Icons.flashlight_on,
-                              onPressed: _toggleTorch
+                              icon: Icons.star,
+                              onPressed: () {
+                                _captureCompleteScreenshot();
+                                setState(() {});
+                              }
                           ),
                         ],
                       ),
                     ),
-                    !_isCameraOn  ? SizedBox(
+
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.45,
                       width: MediaQuery.of(context).size.width * 1.2,
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
-                          // NEED TO FIX AND DEBUG THESE BUTTONS AREN"T WORKING
-                          Positioned(
-                            top: 10,
-                            left: 10,
-                            child:
-                            RoundedIconButton(
-                              icon: Icons.star,
-                              onPressed: _captureCompleteScreenshot,
-                            ),
-                            // RoundedIconButton(
-                            //   icon: Icons.flashlight_on,
-                            //   onPressed: _toggleTorch
-                            //   //     () async {
-                            //   //   try {
-                            //   //     if (_isTorchOn) {
-                            //   //       await TorchLight.disableTorch();
-                            //   //     } else {
-                            //   //       await TorchLight.enableTorch();
-                            //   //     }
-                            //   //     setState(() {
-                            //   //       _isTorchOn = !_isTorchOn;
-                            //   //     });
-                            //   //   } catch (e) {
-                            //   //     print('Error: $e');
-                            //   //   }
-                            //   // },
-                            // ),
-                          ),
-                          Positioned(
-                            top: 10,
-                            right: 10,
-                            child: RoundedIconButton(
-                              icon: Icons.settings,
-                              onPressed: () {
-                                print('Button Pressed!');
-                              },
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 10,
-                            left: 10,
-                            child: RoundedIconButton(
-                              icon: Icons.location_on,
-                              onPressed: () {
-                                print('Button Pressed!');
-                              },
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 10,
-                            right: 10,
-                            child: RoundedIconButton(
-                              icon: Icons.navigation_sharp,
-                              onPressed: () {
-                                print('Button Pressed!');
-                              },
-                            ),
-                          ),
-                          // Positioned(
-                          //   bottom: 10,
-                          //   right: 10,
-                          //   child: RoundedIconButton(
-                          //     icon: Icons.camera_alt_rounded,
-                          //     onPressed: () async {
-                          //       try {
-                          //         if (_isCameraOn) {
-                          //           await _cameraController.dispose();
-                          //           setState(() {
-                          //             _isCameraOn = false;
-                          //           });
-                          //         } else {
-                          //           setState(() {
-                          //             _isCameraOn = true;
-                          //           });
-                          //           _initializeCamera();
-                          //         }
-                          //       //   setState(() {
-                          //       //     _isTorchOn = !_isTorchOn;
-                          //       //   });
-                          //       } catch (e) {
-                          //         print('Error: $e');
-                          //       }
-                          //     },
-                          //
-                          //   ),
-                          // ),
-                          // Positioned(
-                          //   bottom: 10,
-                          //   right: 10,
-                          //   child: RoundedIconButton(
-                          //     icon: Icons.camera_alt_rounded,
-                          //     onPressed: _toggleCamera,
-                          //   ),
-                          // ),
                           PageView(
                             controller: _pageController,
                             children: [
-                              Stack(
+                              !_isCameraOn ? Stack(
                                 alignment: Alignment.center,
                                 fit: StackFit.passthrough,
                                 children: [
@@ -319,145 +225,107 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ],
+                              ) : Stack(
+                                alignment: Alignment.center,
+                                fit: StackFit.passthrough,
+                                children: [
+                                  AnimatedRotation(
+                                      duration: Duration(milliseconds: 10),
+                                      curve: Curves.easeInOutCubic,
+                                      turns: compassRotation,
+                                      child: Image.asset(
+                                        'assets/images/CompassLabel2.png',
+                                      )),
+                                  Image.asset(
+                                    'assets/images/pointer.png',
+                                  ),
+                                  Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '${degreeValue}°',
+                                          style: GoogleFonts.redHatDisplay(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.white),
+                                        ),
+                                        Text(
+                                          '${_compassController.compassDirection}',
+                                          style: GoogleFonts.redHatDisplay(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        GPSDemo(),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              BubbleLevelScreen(),
+                              !_isCameraOn ? BubbleLevelScreen() : BubbleLevelScreen2(),
                             ],
+                          ),
+                          Positioned(
+                            top: 10,
+                            left: 10,
+                            child: RoundedIconButton(
+                                icon: Icons.flashlight_on,
+                                onPressed: () {
+                                  _toggleTorch();
+                                  setState(() {});
+                                }
+                            ),
+                          ),
+                          Positioned(
+                            top: 10,
+                            right: 10,
+                            child: RoundedIconButton(
+                              icon: Icons.settings,
+                              onPressed: () {
+                                print('Button Pressed!');
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child: RoundedIconButton(
+                              icon: Icons.location_on,
+                              onPressed: () {
+                                print('Button Pressed!');
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            right: 10,
+                            child:
+                            RoundedIconButton(
+                              icon: Icons.camera_alt_rounded,
+                              onPressed: () {
+                                _toggleCamera();
+                                setState(() {});
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    )
-
-                    // SizedBox(
-                    //   height: MediaQuery.of(context).size.height * 0.45,
-                    //   width: MediaQuery.of(context).size.width * 1.2,
-                    //   child: PageView(
-                    //     controller: _pageController,
-                    //     children:[
-                    //       Stack(
-                    //         alignment: Alignment.center,
-                    //         fit: StackFit.passthrough,
-                    //         children: [
-                    //           Image.asset(
-                    //             'assets/images/dial3.png',
-                    //           ),
-                    //           AnimatedRotation(
-                    //               duration: Duration(milliseconds: 10),
-                    //               curve: Curves.easeInOutCubic,
-                    //               turns: compassRotation,
-                    //               child: Image.asset(
-                    //                 'assets/images/CompassLabel.png',
-                    //               )),
-                    //           // SizedBox(
-                    //           //   width: 3,
-                    //           //   height: 3,
-                    //           //   child: Image.asset(
-                    //           //     'assets/images/pointer.png',
-                    //           //     fit: BoxFit.cover,
-                    //           //   ),
-                    //           // ),
-                    //           Image.asset(
-                    //             'assets/images/pointer.png',
-                    //             fit: BoxFit.scaleDown,
-                    //           ),
-                    //           Center(
-                    //             child: Column(
-                    //               mainAxisSize: MainAxisSize.min,
-                    //               children: [
-                    //                 Text(
-                    //                   '${degreeValue}° '
-                    //                       '${_compassController.compassDirection}',
-                    //                   style: GoogleFonts.redHatDisplay(
-                    //                     fontSize: 20,
-                    //                     fontWeight: FontWeight.w900,
-                    //                     color: const Color(0xFF4C4C4C),
-                    //                   ),
-                    //                 ),
-                    //                 // Text(
-                    //                 //   '${_compassController.compassDirection}',
-                    //                 //   style: GoogleFonts.redHatDisplay(
-                    //                 //     fontSize: 10,
-                    //                 //     fontWeight: FontWeight.bold,
-                    //                 //     color: const Color(0xCC4C4C4C),
-                    //                 //   ),
-                    //                 // ),
-                    //                 GeoLocationApp2(),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //       BubbleLevelScreen(),
-                    //     ],
-                    //   ),
-                    // )
-                        : SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        width: MediaQuery.of(context).size.width * 1.2,
-                        child: PageView(
-                          controller: _pageController,
-                          children: [
-                            Stack(
-                              alignment: Alignment.center,
-                              fit: StackFit.passthrough,
-                              children: [
-                                AnimatedRotation(
-                                    duration: Duration(milliseconds: 10),
-                                    curve: Curves.easeInOutCubic,
-                                    turns: compassRotation,
-                                    child: Image.asset(
-                                      'assets/images/CompassLabel2.png',
-                                    )),
-                                Image.asset(
-                                  'assets/images/pointer.png',
-                                ),
-                                Center(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        '${degreeValue}°',
-                                        style: GoogleFonts.redHatDisplay(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.w900,
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        '${_compassController.compassDirection}',
-                                        style: GoogleFonts.redHatDisplay(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      GPSDemo(),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            BubbleLevelScreen2(),
-                          ],
-                        )),
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // RoundedIconButton(
-                          //   icon: Icons.location_on,
-                          //   onPressed: () {
-                          //     print('Button Pressed!');
-                          //   },
-                          // ),
-                          // RoundedIconButton(
-                          //   icon: Icons.navigation_sharp,
-                          //   onPressed: () {
-                          //     print('Button Pressed!');
-                          //   },
-                          // ),
                           RoundedIconButton(
-                            icon: Icons.camera_alt_rounded,
-                            onPressed: _toggleCamera,
+                            icon: Icons.navigation_sharp,
+                            onPressed: () {
+                              print('Button Pressed!');
+                              setState(() {});
+                            },
                           ),
                         ],
                       ),

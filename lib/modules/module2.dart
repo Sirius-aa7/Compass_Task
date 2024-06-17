@@ -210,8 +210,8 @@ class _RadarChartScreenState extends State<RadarChartScreen> {
         double fractionalPart = elevationAngleDegrees - degrees;
         int minutes = (fractionalPart * 60).round();
 
-        _AOS2degreesController.text = degrees.toString();
-        _AOS2minutesController.text = minutes.toString();
+        _AOS2degreesController.text = degrees.toStringAsFixed(0);
+        _AOS2minutesController.text = minutes.toStringAsFixed(0);
       }
 
 
@@ -243,8 +243,8 @@ class _RadarChartScreenState extends State<RadarChartScreen> {
         double fractionalPart = elevationAngleDegrees - degrees;
         int minutes = (fractionalPart * 60).round();
 
-        _AOS3degreesController.text = degrees.toString();
-        _AOS3minutesController.text = minutes.toString();
+        _AOS3degreesController.text = degrees.toStringAsFixed(0);
+        _AOS3minutesController.text = minutes.toStringAsFixed(0);
       }
 
 
@@ -276,8 +276,8 @@ class _RadarChartScreenState extends State<RadarChartScreen> {
         double fractionalPart = elevationAngleDegrees - degrees;
         int minutes = (fractionalPart * 60).round();
 
-        _AOS4degreesController.text = degrees.toString();
-        _AOS4minutesController.text = minutes.toString();
+        _AOS4degreesController.text = degrees.toStringAsFixed(0);
+        _AOS4minutesController.text = minutes.toStringAsFixed(0);
       }
 
       // Distance between OP and TP
@@ -882,7 +882,6 @@ class _RadarChartScreenState extends State<RadarChartScreen> {
             ],
           ),
         ),
-
       ],
     );
   }
@@ -945,6 +944,18 @@ class RadarChartPainter extends CustomPainter {
       Rect.fromCenter(center: point1Offset, width: squareSize, height: squareSize),
       Paint()..color = Colors.blue,
     );
+
+    // Calculate maximum radius among radius2 and radius3
+    double maxRadius = radius2 > radius3 ? radius2 : radius3;
+
+    // Calculate scaling factor
+    double scaleFactor = circleRadius / maxRadius;
+
+    // SOME ISSUE WITH AUTOSCALING FACTOR
+    // // Calculate scaled positions for points 2 and 3
+    final scaledPoint2Offset = _calculateOffset(center, radius2 * scaleFactor, angle2);
+    final scaledPoint3Offset = _calculateOffset(center, radius3 * scaleFactor, angle3);
+
 
     // Calculate positions based on angles
     final point2Offset = _calculateOffset(center, radius2, angle2);
