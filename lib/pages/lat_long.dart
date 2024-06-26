@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'buttons_beside_compass.dart';
 import 'calculation.dart';
 import 'dropdownENA.dart';
 
@@ -99,6 +100,11 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   bool ENAunit = false;
   bool reverseCalc = false;
   final Calculator _calculator = Calculator();
+
+
+  String dropdownValue = 'P';
+  String enaDropdownValue = 'A';
+  int selectedRadio = 1;
 
   // Text Editing Controllers for Lat-Lon-Alt to E-N-A interconversion
   TextEditingController pointLatConvertConttroller = TextEditingController();
@@ -227,18 +233,27 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-            child: Row(
+            padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16.0),
+            child : Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text('P'),
-                Switch(
-                  value: sectionEnabled,
-                  activeColor: Color.fromRGBO(203, 219, 188, 10),
-                  inactiveTrackColor: Colors.grey.shade400,
-                  onChanged: (value) {
+                Spacer(flex: 1), // Add a Spacer with flex: 1
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  items: [
+                    DropdownMenuItem(
+                      value: 'P',
+                      child: Text('Projection'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'C',
+                      child: Text('Conversion'),
+                    ),
+                  ],
+                  onChanged: (String? newValue) {
                     setState(() {
-                      sectionEnabled = value;
+                      dropdownValue = newValue!;
+                      sectionEnabled = dropdownValue == 'C';
                       if (!sectionEnabled) {
                         point1LatController.text = '';
                         point1LonController.text = '';
@@ -248,40 +263,151 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     });
                   },
                 ),
-                Text('C'),
-                SizedBox(
-                  width: 50,
+                Spacer(flex: 5), // Add a Spacer with flex: 1
+                RoundedIconButton(
+                  icon: Icons.navigation_sharp,
+                  onPressed: () {
+                    print('Button Pressed!');
+                    setState(() {});
+                  },
                 ),
-                Text('R'),
-                Switch(
-                  value: reverseCalc,
-                  activeColor: Color.fromRGBO(203, 219, 188, 10),
-                  inactiveTrackColor: Colors.grey.shade400,
-                  onChanged: (value) {
+                Spacer(flex: 2), // Add a Spacer with flex: 1
+                DropdownButton<String>(
+                  value: enaDropdownValue,
+                  items: [
+                    DropdownMenuItem(
+                      value: 'A',
+                      child: Text('Primary Unit'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'B',
+                      child: Text('Secondary Unit'),
+                    ),
+                  ],
+                  onChanged: (String? newValue) {
                     setState(() {
-                      reverseCalc = value;
+                      enaDropdownValue = newValue!;
+                      ENAunit = enaDropdownValue == 'B';
                     });
                   },
                 ),
-                Text('S'),
-                SizedBox(
-                  width: 50,
-                ),
-                Text('A'),
-                Switch(
-                  value: ENAunit,
-                  activeColor: Color.fromRGBO(203, 219, 188, 10),
-                  inactiveTrackColor: Colors.grey.shade400,
-                  onChanged: (value) {
-                    setState(() {
-                      ENAunit = value;
-                    });
-                  },
-                ),
-                Text('B')
+                Spacer(flex: 1), // Add a Spacer with flex: 1
               ],
             ),
+            // child: Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     DropdownButton<String>(
+            //       value: dropdownValue,
+            //       items: [
+            //         DropdownMenuItem(
+            //           value: 'P',
+            //           child: Text('Projection'),
+            //         ),
+            //         DropdownMenuItem(
+            //           value: 'C',
+            //           child: Text('Conversion'),
+            //         ),
+            //       ],
+            //       onChanged: (String? newValue) {
+            //         setState(() {
+            //           dropdownValue = newValue!;
+            //           sectionEnabled = dropdownValue == 'C';
+            //           if (!sectionEnabled) {
+            //             point1LatController.text = '';
+            //             point1LonController.text = '';
+            //             point2LatController.text = '';
+            //             point2LonController.text = '';
+            //           }
+            //         });
+            //       },
+            //     ),
+            //     RoundedIconButton(
+            //       icon: Icons.navigation_sharp,
+            //       onPressed: () {
+            //         print('Button Pressed!');
+            //         setState(() {});
+            //       },
+            //     ),
+            //     DropdownButton<String>(
+            //       value: enaDropdownValue,
+            //       items: [
+            //         DropdownMenuItem(
+            //           value: 'A',
+            //           child: Text('Primary Unit'),
+            //         ),
+            //         DropdownMenuItem(
+            //           value: 'B',
+            //           child: Text('Secondary Unit'),
+            //         ),
+            //       ],
+            //       onChanged: (String? newValue) {
+            //         setState(() {
+            //           enaDropdownValue = newValue!;
+            //           ENAunit = enaDropdownValue == 'B';
+            //         });
+            //       },
+            //     ),
+            //   ],
+            // ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //     children: [
+          //       // Text('P'),
+          //       // Switch(
+          //       //   value: sectionEnabled,
+          //       //   activeColor: Color.fromRGBO(203, 219, 188, 10),
+          //       //   inactiveTrackColor: Colors.grey.shade400,
+          //       //   onChanged: (value) {
+          //       //     setState(() {
+          //       //       sectionEnabled = value;
+          //       //       if (!sectionEnabled) {
+          //       //         point1LatController.text = '';
+          //       //         point1LonController.text = '';
+          //       //         point2LatController.text = '';
+          //       //         point2LonController.text = '';
+          //       //       }
+          //       //     });
+          //       //   },
+          //       // ),
+          //       // Text('C'),
+          //
+          //       // SizedBox(
+          //       //   width: 50,
+          //       // ),
+          //       // Text('R'),
+          //       // Switch(
+          //       //   value: reverseCalc,
+          //       //   activeColor: Color.fromRGBO(203, 219, 188, 10),
+          //       //   inactiveTrackColor: Colors.grey.shade400,
+          //       //   onChanged: (value) {
+          //       //     setState(() {
+          //       //       reverseCalc = value;
+          //       //     });
+          //       //   },
+          //       // ),
+          //       // Text('S'),
+          //       // SizedBox(
+          //       //   width: 50,
+          //       // ),
+          //       // Text('A'),
+          //       // Switch(
+          //       //   value: ENAunit,
+          //       //   activeColor: Color.fromRGBO(203, 219, 188, 10),
+          //       //   inactiveTrackColor: Colors.grey.shade400,
+          //       //   onChanged: (value) {
+          //       //     setState(() {
+          //       //       ENAunit = value;
+          //       //     });
+          //       //   },
+          //       // ),
+          //       // Text('B')
+          //     ],
+          //   ),
+          // ),
 
           // Conversion between Lat-Lon-Alt to ENA and vice versa
           if (sectionEnabled && !ENAunit)
@@ -1289,375 +1415,769 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
               ),
             ),
           if (!sectionEnabled && !reverseCalc && !ENAunit)
+            // Container(
+            //   child: Column(
+            //     children: [
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Text(
+            //             "Point 1: ",
+            //             style: GoogleFonts.redHatDisplay(
+            //               fontWeight: FontWeight.w900,
+            //               color: const Color(0xFF4C4C4C),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point1LatController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !sectionEnabled && !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Lat 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point1LonController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !sectionEnabled && !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Lon 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point1AltController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !sectionEnabled && !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Alt 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Text(
+            //             "Point 2:",
+            //             style: GoogleFonts.redHatDisplay(
+            //               fontWeight: FontWeight.w900,
+            //               color: const Color(0xFF4C4C4C),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point2LatController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !sectionEnabled && !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Lat 2',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point2LonController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !sectionEnabled && !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Lon 2',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point2AltController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !sectionEnabled && !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Alt 2',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Container(
+            //             width: 95,
+            //             child: Text(
+            //               "Map Range",
+            //               style: GoogleFonts.redHatDisplay(
+            //                 fontWeight: FontWeight.w900,
+            //                 color: const Color(0xFF4C4C4C),
+            //               ),
+            //             ),
+            //           ),
+            //           Container(
+            //             width: 5,
+            //             child: Text(
+            //               ":",
+            //               style: GoogleFonts.redHatDisplay(
+            //                 fontWeight: FontWeight.w900,
+            //                 color: const Color(0xFF4C4C4C),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(10)),
+            //           Container(
+            //             height: 30,
+            //             width: 160,
+            //             child: TextField(
+            //               controller: distanceController,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: sectionEnabled,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Map Range (km)',
+            //                 border: OutlineInputBorder(),
+            //                 disabledBorder: OutlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.blue),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Container(
+            //             width: 95,
+            //             child: Text(
+            //               "Aerial Range",
+            //               style: GoogleFonts.redHatDisplay(
+            //                 fontWeight: FontWeight.w900,
+            //                 color: const Color(0xFF4C4C4C),
+            //               ),
+            //             ),
+            //           ),
+            //           Container(
+            //             width: 5,
+            //             child: Text(
+            //               ":",
+            //               style: GoogleFonts.redHatDisplay(
+            //                 fontWeight: FontWeight.w900,
+            //                 color: const Color(0xFF4C4C4C),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(10)),
+            //           Container(
+            //             height: 30,
+            //             width: 160, // 165
+            //             child: TextField(
+            //               controller: rangeController,
+            //               enabled: sectionEnabled,
+            //               decoration: InputDecoration(
+            //                 // labelText: 'Calculated range ', // "471"
+            //                 labelText: 'Aerial Range (km)',
+            //                 border: OutlineInputBorder(),
+            //                 disabledBorder: OutlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.blue),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Container(
+            //             width: 95,
+            //             child: Text(
+            //               "Bearing",
+            //               style: GoogleFonts.redHatDisplay(
+            //                 fontWeight: FontWeight.w900,
+            //                 color: const Color(0xFF4C4C4C),
+            //               ),
+            //             ),
+            //           ),
+            //           Container(
+            //             width: 5,
+            //             child: Text(
+            //               ":",
+            //               style: GoogleFonts.redHatDisplay(
+            //                 fontWeight: FontWeight.w900,
+            //                 color: const Color(0xFF4C4C4C),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(10)),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               // controller: _angleDeg2Controller,
+            //               enabled: sectionEnabled,
+            //               style: TextStyle(
+            //                 fontSize: 10.0, // Set the font size here
+            //               ),
+            //               decoration: InputDecoration(
+            //                 labelText: ' dd °',
+            //                 border: OutlineInputBorder(),
+            //                 disabledBorder: OutlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.blue),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //           SizedBox(
+            //             width: 40,
+            //           ),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               // controller: _angleMin2Controller,
+            //               enabled: sectionEnabled,
+            //               style: TextStyle(
+            //                 fontSize: 10.0, // Set the font size here
+            //               ),
+            //               decoration: InputDecoration(
+            //                 labelText: " min '",
+            //                 border: OutlineInputBorder(),
+            //                 disabledBorder: OutlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.blue),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //           // Container(
+            //           //   height: 30,
+            //           //   width: 165,
+            //           //   child: TextField(
+            //           //     controller: bearingController,
+            //           //     enabled: sectionEnabled,
+            //           //     decoration: InputDecoration(
+            //           //       labelText: 'Calculated bearing', //"4712356"
+            //           //       border: OutlineInputBorder(),
+            //           //       disabledBorder: OutlineInputBorder(
+            //           //         borderSide: BorderSide(color: Colors.blue),
+            //           //       ),
+            //           //     ),
+            //           //   ),
+            //           // ),
+            //         ],
+            //       ),
+            //       Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Container(
+            //             width: 95,
+            //             child: Text(
+            //               "AOS",
+            //               style: GoogleFonts.redHatDisplay(
+            //                 fontWeight: FontWeight.w900,
+            //                 color: const Color(0xFF4C4C4C),
+            //               ),
+            //             ),
+            //           ),
+            //           Container(
+            //             width: 5,
+            //             child: Text(
+            //               ":",
+            //               style: GoogleFonts.redHatDisplay(
+            //                 fontWeight: FontWeight.w900,
+            //                 color: const Color(0xFF4C4C4C),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(10)),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               // controller: _angleDeg2Controller,
+            //               enabled: sectionEnabled,
+            //               style: TextStyle(
+            //                 fontSize: 10.0, // Set the font size here
+            //               ),
+            //               decoration: InputDecoration(
+            //                 labelText: ' dd °',
+            //                 border: OutlineInputBorder(),
+            //                 disabledBorder: OutlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.blue),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //           SizedBox(
+            //             width: 40,
+            //           ),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               // controller: _angleMin2Controller,
+            //               enabled: sectionEnabled,
+            //               style: TextStyle(
+            //                 fontSize: 10.0, // Set the font size here
+            //               ),
+            //               decoration: InputDecoration(
+            //                 labelText: " min '",
+            //                 border: OutlineInputBorder(),
+            //                 disabledBorder: OutlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.blue),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //           // Container(
+            //           //   height: 30,
+            //           //   width: 165,
+            //           //   child: TextField(
+            //           //     controller: aosController,
+            //           //     enabled: sectionEnabled,
+            //           //     decoration: InputDecoration(
+            //           //       labelText: 'Calculated AOS ', //"47.6"
+            //           //       border: OutlineInputBorder(),
+            //           //       disabledBorder: OutlineInputBorder(
+            //           //         borderSide: BorderSide(color: Colors.blue),
+            //           //       ),
+            //           //     ),
+            //           //   ),
+            //           // ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Container(
               child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point 1: ",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point1LatController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !sectionEnabled && !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lat 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point1LonController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !sectionEnabled && !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lon 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point1AltController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !sectionEnabled && !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point 2:",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2LatController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !sectionEnabled && !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lat 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2LonController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !sectionEnabled && !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lon 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point2AltController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !sectionEnabled && !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt 2',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Container(
-                        width: 95,
-                        child: Text(
-                          "Map Range",
-                          style: GoogleFonts.redHatDisplay(
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF4C4C4C),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 5,
-                        child: Text(
-                          ":",
-                          style: GoogleFonts.redHatDisplay(
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF4C4C4C),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(10)),
-                      Container(
-                        height: 30,
-                        width: 160,
-                        child: TextField(
-                          controller: distanceController,
-                          onChanged: (value) => _updateResults(),
-                          enabled: sectionEnabled,
-                          decoration: InputDecoration(
-                            labelText: 'Map Range (km)',
-                            border: OutlineInputBorder(),
-                            disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Container(
-                        width: 95,
-                        child: Text(
-                          "Aerial Range",
-                          style: GoogleFonts.redHatDisplay(
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF4C4C4C),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 5,
-                        child: Text(
-                          ":",
-                          style: GoogleFonts.redHatDisplay(
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF4C4C4C),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(10)),
-                      Container(
-                        height: 30,
-                        width: 160, // 165
-                        child: TextField(
-                          controller: rangeController,
-                          enabled: sectionEnabled,
-                          decoration: InputDecoration(
-                            // labelText: 'Calculated range ', // "471"
-                            labelText: 'Aerial Range (km)',
-                            border: OutlineInputBorder(),
-                            disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Container(
-                        width: 95,
-                        child: Text(
-                          "Bearing",
-                          style: GoogleFonts.redHatDisplay(
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF4C4C4C),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 5,
-                        child: Text(
-                          ":",
-                          style: GoogleFonts.redHatDisplay(
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF4C4C4C),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(10)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          // controller: _angleDeg2Controller,
-                          enabled: sectionEnabled,
-                          style: TextStyle(
-                            fontSize: 10.0, // Set the font size here
-                          ),
-                          decoration: InputDecoration(
-                            labelText: ' dd °',
-                            border: OutlineInputBorder(),
-                            disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          // controller: _angleMin2Controller,
-                          enabled: sectionEnabled,
-                          style: TextStyle(
-                            fontSize: 10.0, // Set the font size here
-                          ),
-                          decoration: InputDecoration(
-                            labelText: " min '",
-                            border: OutlineInputBorder(),
-                            disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // Container(
-                      //   height: 30,
-                      //   width: 165,
-                      //   child: TextField(
-                      //     controller: bearingController,
-                      //     enabled: sectionEnabled,
-                      //     decoration: InputDecoration(
-                      //       labelText: 'Calculated bearing', //"4712356"
-                      //       border: OutlineInputBorder(),
-                      //       disabledBorder: OutlineInputBorder(
-                      //         borderSide: BorderSide(color: Colors.blue),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Container(
-                        width: 95,
-                        child: Text(
-                          "AOS",
-                          style: GoogleFonts.redHatDisplay(
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF4C4C4C),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 5,
-                        child: Text(
-                          ":",
-                          style: GoogleFonts.redHatDisplay(
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF4C4C4C),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(10)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          // controller: _angleDeg2Controller,
-                          enabled: sectionEnabled,
-                          style: TextStyle(
-                            fontSize: 10.0, // Set the font size here
-                          ),
-                          decoration: InputDecoration(
-                            labelText: ' dd °',
-                            border: OutlineInputBorder(),
-                            disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          // controller: _angleMin2Controller,
-                          enabled: sectionEnabled,
-                          style: TextStyle(
-                            fontSize: 10.0, // Set the font size here
-                          ),
-                          decoration: InputDecoration(
-                            labelText: " min '",
-                            border: OutlineInputBorder(),
-                            disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // Container(
-                      //   height: 30,
-                      //   width: 165,
-                      //   child: TextField(
-                      //     controller: aosController,
-                      //     enabled: sectionEnabled,
-                      //     decoration: InputDecoration(
-                      //       labelText: 'Calculated AOS ', //"47.6"
-                      //       border: OutlineInputBorder(),
-                      //       disabledBorder: OutlineInputBorder(
-                      //         borderSide: BorderSide(color: Colors.blue),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+              children: [
+    // Row(
+    // mainAxisAlignment: MainAxisAlignment.start,
+    // children: [
+    // Radio(
+    // value: 1,
+    // groupValue: selectedRadio,
+    // onChanged: (value) {
+    // setState(() {
+    // selectedRadio = value as int;
+    // });
+    // },
+    // ),
+    // Text(
+    // "Enable",
+    // style: GoogleFonts.redHatDisplay(
+    // fontWeight: FontWeight.w900,
+    // color: const Color(0xFF4C4C4C),
+    // ),
+    // ),
+    // Radio(
+    // value: 2,
+    // groupValue: selectedRadio,
+    // onChanged: (value) {
+    // setState(() {
+    // selectedRadio = value as int;
+    // });
+    // },
+    // ),
+    // Text(
+    // "Disable",
+    // style: GoogleFonts.redHatDisplay(
+    // fontWeight: FontWeight.w900,
+    // color: const Color(0xFF4C4C4C),
+    // ),
+    // ),
+    // ],
+    // ),
+    Row(
+    children: [
+    Padding(padding: EdgeInsets.only(left: 0)),
+      Radio(
+        value: 1,
+        groupValue: selectedRadio,
+        onChanged: (value) {
+          setState(() {
+            selectedRadio = value as int;
+          });
+        },
+      ),
+    Text(
+    "Point 1: ",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(7)),
+    Container(
+    height: 30,
+    width: 70,
+    child: TextField(
+    controller: point1LatController,
+    keyboardType: TextInputType.number,
+    onChanged: (value) => _updateResults(),
+    enabled: true,
+    decoration: InputDecoration(
+    labelText: 'Lat 1',
+    border: OutlineInputBorder(),
+    ),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(7)),
+    Container(
+    height: 30,
+    width: 70,
+    child: TextField(
+    controller: point1LonController,
+    keyboardType: TextInputType.number,
+    onChanged: (value) => _updateResults(),
+    enabled: true,
+    decoration: InputDecoration(
+    labelText: 'Lon 1',
+    border: OutlineInputBorder(),
+    ),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(7)),
+    Container(
+    height: 30,
+    width: 70,
+    child: TextField(
+    controller: point1AltController,
+    keyboardType: TextInputType.number,
+    onChanged: (value) => _updateResults(),
+    enabled: true,
+    decoration: InputDecoration(
+    labelText: 'Alt 1',
+    border: OutlineInputBorder(),
+    ),
+    ),
+    ),
+    ],
+    ),
+    Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+    Row(
+    children: [
+    Padding(padding: EdgeInsets.only(left: 30)),
+    Text(
+    "Point 2:",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(7)),
+    Container(
+    height: 30,
+    width: 70,
+    child: TextField(
+    controller: point2LatController,
+    keyboardType: TextInputType.number,
+    onChanged: (value) => _updateResults(),
+    enabled: selectedRadio == 1,
+    decoration: InputDecoration(
+    labelText: 'Lat 2',
+    border: OutlineInputBorder(),
+    ),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(7)),
+    Container(
+    height: 30,
+    width: 70,
+    child: TextField(
+    controller: point2LonController,
+    keyboardType: TextInputType.number,
+    onChanged: (value) => _updateResults(),
+    enabled: selectedRadio == 1,
+    decoration: InputDecoration(
+    labelText: 'Lon 2',
+    border: OutlineInputBorder(),
+    ),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(7)),
+    Container(
+    height: 30,
+    width: 70,
+    child: TextField(
+    controller: point2AltController,
+    keyboardType: TextInputType.number,
+    onChanged: (value) => _updateResults(),
+    enabled: selectedRadio == 1,
+    decoration: InputDecoration(
+    labelText: 'Alt 2',
+    border: OutlineInputBorder(),
+    ),
+    ),
+    ),
+    ],
+    ),
+    Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
+    Row(
+    children: [
+    Padding(padding: EdgeInsets.only(left: 0)),
+    Radio(
+      value: 2,
+      groupValue: selectedRadio,
+      onChanged: (value) {
+        setState(() {
+          selectedRadio = value as int;
+        });
+      },
+    ),
+    Container(
+    width: 95,
+    child: Text(
+    "Map Range",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    ),
+    Container(
+    width: 5,
+    child: Text(
+    ":",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(10)),
+    Container(
+    height: 30,
+    width: 160,
+    child: TextField(
+    controller: distanceController,
+    onChanged: (value) => _updateResults(),
+    enabled: selectedRadio == 2,
+    // enabled: sectionEnabled,
+    decoration: InputDecoration(
+    labelText: 'Map Range (km)',
+    border: OutlineInputBorder(),
+    disabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blue),
+    ),
+    ),
+    ),
+    ),
+    ],
+    ),
+    Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+    Row(
+    children: [
+    Padding(padding: EdgeInsets.only(left: 30)),
+    Container(
+    width: 95,
+    child: Text(
+    "Aerial Range",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    ),
+    Container(
+    width: 5,
+    child: Text(
+    ":",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(10)),
+    Container(
+    height: 30,
+    width: 160,
+    child: TextField(
+    controller: rangeController,
+    enabled: selectedRadio == 2,
+    decoration: InputDecoration(
+    labelText: 'Aerial Range (km)',
+    border: OutlineInputBorder(),
+    disabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blue),
+    ),
+    ),
+    ),
+    ),
+    ],
+    ),
+    Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+    Row(
+    children: [
+    Padding(padding: EdgeInsets.only(left: 30)),
+    Container(
+    width: 95,
+    child: Text(
+    "Bearing",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    ),
+    Container(
+    width: 5,
+    child: Text(
+    ":",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(10)),
+    Container(
+    height: 30,
+    width: 60,
+    child: TextField(
+    // controller: _angleDeg2Controller,
+    enabled: selectedRadio == 2,
+    style: TextStyle(
+    fontSize: 10.0, // Set the font size here
+    ),
+    decoration: InputDecoration(
+    labelText: ' dd °',
+    border: OutlineInputBorder(),
+    disabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blue),
+    ),
+    ),
+    ),
+    ),
+    SizedBox(
+    width: 40,
+    ),
+    Container(
+    height: 30,
+    width: 60,
+    child: TextField(
+    // controller: _angleMin2Controller,
+    enabled: selectedRadio == 2,
+    style: TextStyle(
+    fontSize: 10.0, // Set the font size here
+    ),
+    decoration: InputDecoration(
+    labelText: " min '",
+    border: OutlineInputBorder(),
+    disabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blue),
+    ),
+    ),
+    ),
+    ),
+    ],
+    ),
+    Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+    Row(
+    children: [
+    Padding(padding: EdgeInsets.only(left: 30)),
+    Container(
+    width: 95,
+    child: Text(
+    "AOS",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    ),
+    Container(
+    width: 5,
+    child: Text(
+    ":",
+    style: GoogleFonts.redHatDisplay(
+    fontWeight: FontWeight.w900,
+    color: const Color(0xFF4C4C4C),
+    ),
+    ),
+    ),
+    Padding(padding: EdgeInsets.all(10)),
+    Container(
+    height: 30,
+    width: 60,
+    child: TextField(
+    // controller: _angleDeg2Controller,
+    enabled: selectedRadio == 2,
+    style: TextStyle(
+    fontSize: 10.0, // Set the font size here
+    ),
+    decoration: InputDecoration(
+    labelText: ' dd °',
+    border: OutlineInputBorder(),
+    disabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blue),
+    ),
+    ),
+    ),
+    ),
+    SizedBox(
+    width: 40,
+    ),
+    Container(
+    height: 30,
+    width: 60,
+    child: TextField(
+    // controller: _angleMin2Controller,
+    enabled: selectedRadio == 2,
+    style: TextStyle(
+    fontSize: 10.0, // Set the font size here
+    ),
+    decoration: InputDecoration(
+    labelText: " min '",
+    border: OutlineInputBorder(),
+    disabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blue),
+    ),
+    ),
+    ),
+    ),
+    ],
+    ),
+    ],
+    ),
+    )
         ],
       ),
     );
