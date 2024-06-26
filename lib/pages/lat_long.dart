@@ -87,6 +87,7 @@ import 'dropdownENA.dart';
 
 class GeoLocationApp extends StatefulWidget {
   const GeoLocationApp({Key? key}) : super(key: key);
+
   @override
   State<GeoLocationApp> createState() => _GeoLocationAppState();
 }
@@ -100,7 +101,6 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   bool ENAunit = false;
   bool reverseCalc = false;
   final Calculator _calculator = Calculator();
-
 
   String dropdownValue = 'P';
   String enaDropdownValue = 'A';
@@ -170,42 +170,58 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   }
 
   void _updateResults() {
-    final double pointLatForConversion = double.tryParse(pointLatConvertConttroller.text) ?? 0.0;
-    final double pointLonForConversion = double.tryParse(pointLonConvertController.text) ?? 0.0;
+    final double pointLatForConversion =
+        double.tryParse(pointLatConvertConttroller.text) ?? 0.0;
+    final double pointLonForConversion =
+        double.tryParse(pointLonConvertController.text) ?? 0.0;
 
-    final double point1LatForRange = double.tryParse(point1LatController.text) ?? 0.0;
-    final double point1LonForRange = double.tryParse(point1LonController.text) ?? 0.0;
-    final double point1AltForRange = double.tryParse(point1AltController.text) ?? 0.0;
-    final double point2LatForRange = double.tryParse(point2LatController.text) ?? 0.0;
-    final double point2LonForRange = double.tryParse(point2LonController.text) ?? 0.0;
-    final double point2AltForRange = double.tryParse(point2AltController.text) ?? 0.0;
+    final double point1LatForRange =
+        double.tryParse(point1LatController.text) ?? 0.0;
+    final double point1LonForRange =
+        double.tryParse(point1LonController.text) ?? 0.0;
+    final double point1AltForRange =
+        double.tryParse(point1AltController.text) ?? 0.0;
+    final double point2LatForRange =
+        double.tryParse(point2LatController.text) ?? 0.0;
+    final double point2LonForRange =
+        double.tryParse(point2LonController.text) ?? 0.0;
+    final double point2AltForRange =
+        double.tryParse(point2AltController.text) ?? 0.0;
 
     final results;
     final zone;
     final distance;
     final bearing;
 
-    if(sectionEnabled) {
-      zone = _calculator.calculateZone(pointLatForConversion, pointLonForConversion);
-      results = _calculator.calculateENA(pointLatForConversion, pointLonForConversion);
-    }
-    else {
-      zone = _calculator.calculateZone(pointLatForConversion, pointLonForConversion);
-      results = _calculator.calculateENA(pointLatForConversion, pointLonForConversion);
+    if (sectionEnabled) {
+      zone = _calculator.calculateZone(
+          pointLatForConversion, pointLonForConversion);
+      results = _calculator.calculateENA(
+          pointLatForConversion, pointLonForConversion);
+    } else {
+      zone = _calculator.calculateZone(
+          pointLatForConversion, pointLonForConversion);
+      results = _calculator.calculateENA(
+          pointLatForConversion, pointLonForConversion);
     }
 
     bearing = _calculator.calculateMapBearing(point1LatForRange,
         point1LonForRange, point2LatForRange, point2LonForRange);
-    distance = _calculator.calculateDistanceLatLonAlt(point1LatForRange,
-        point1LonForRange, point1AltForRange, point2LatForRange,
-        point2LonForRange, point2AltForRange);
+    distance = _calculator.calculateDistanceLatLonAlt(
+        point1LatForRange,
+        point1LonForRange,
+        point1AltForRange,
+        point2LatForRange,
+        point2LonForRange,
+        point2AltForRange);
 
     setState(() {
       pointZoneConvertController.text = (zone['zone'] ?? 0.0).toString();
       pointEastConvertConttroller.text = (results['easting'] ?? 0.0).toString();
       pointNortConvertController.text = (results['northing'] ?? 0.0).toString();
       print("object clanc");
-      distanceController.text = (distance['distance'] ?? 0.0).toString();
+      distanceController.text = (distance['distance'] ?? 0.0).toStringAsFixed(1);
+      rangeController.text = (distance['distance'] ?? 0.0).toStringAsFixed(1);
       bearingController.text = (bearing['bearing'] ?? 0.0).toString();
       print(distanceController.text.toString());
       print(bearingController.text.toString());
@@ -227,14 +243,15 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   }
 
   Color buttonColor = Color.fromRGBO(203, 219, 188, 60);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16.0),
-            child : Row(
+            padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 4.0),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Spacer(flex: 1), // Add a Spacer with flex: 1
@@ -263,7 +280,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     });
                   },
                 ),
-                Spacer(flex: 5), // Add a Spacer with flex: 1
+                Spacer(flex: 7), // Add a Spacer with flex: 1
                 RoundedIconButton(
                   icon: Icons.navigation_sharp,
                   onPressed: () {
@@ -271,7 +288,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                     setState(() {});
                   },
                 ),
-                Spacer(flex: 2), // Add a Spacer with flex: 1
+                SizedBox(width:5,),
+                Spacer(flex: 1), // Add a Spacer with flex: 1
                 DropdownButton<String>(
                   value: enaDropdownValue,
                   items: [
@@ -294,121 +312,14 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                 Spacer(flex: 1), // Add a Spacer with flex: 1
               ],
             ),
-            // child: Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //   children: [
-            //     DropdownButton<String>(
-            //       value: dropdownValue,
-            //       items: [
-            //         DropdownMenuItem(
-            //           value: 'P',
-            //           child: Text('Projection'),
-            //         ),
-            //         DropdownMenuItem(
-            //           value: 'C',
-            //           child: Text('Conversion'),
-            //         ),
-            //       ],
-            //       onChanged: (String? newValue) {
-            //         setState(() {
-            //           dropdownValue = newValue!;
-            //           sectionEnabled = dropdownValue == 'C';
-            //           if (!sectionEnabled) {
-            //             point1LatController.text = '';
-            //             point1LonController.text = '';
-            //             point2LatController.text = '';
-            //             point2LonController.text = '';
-            //           }
-            //         });
-            //       },
-            //     ),
-            //     RoundedIconButton(
-            //       icon: Icons.navigation_sharp,
-            //       onPressed: () {
-            //         print('Button Pressed!');
-            //         setState(() {});
-            //       },
-            //     ),
-            //     DropdownButton<String>(
-            //       value: enaDropdownValue,
-            //       items: [
-            //         DropdownMenuItem(
-            //           value: 'A',
-            //           child: Text('Primary Unit'),
-            //         ),
-            //         DropdownMenuItem(
-            //           value: 'B',
-            //           child: Text('Secondary Unit'),
-            //         ),
-            //       ],
-            //       onChanged: (String? newValue) {
-            //         setState(() {
-            //           enaDropdownValue = newValue!;
-            //           ENAunit = enaDropdownValue == 'B';
-            //         });
-            //       },
-            //     ),
-            //   ],
-            // ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //     children: [
-          //       // Text('P'),
-          //       // Switch(
-          //       //   value: sectionEnabled,
-          //       //   activeColor: Color.fromRGBO(203, 219, 188, 10),
-          //       //   inactiveTrackColor: Colors.grey.shade400,
-          //       //   onChanged: (value) {
-          //       //     setState(() {
-          //       //       sectionEnabled = value;
-          //       //       if (!sectionEnabled) {
-          //       //         point1LatController.text = '';
-          //       //         point1LonController.text = '';
-          //       //         point2LatController.text = '';
-          //       //         point2LonController.text = '';
-          //       //       }
-          //       //     });
-          //       //   },
-          //       // ),
-          //       // Text('C'),
-          //
-          //       // SizedBox(
-          //       //   width: 50,
-          //       // ),
-          //       // Text('R'),
-          //       // Switch(
-          //       //   value: reverseCalc,
-          //       //   activeColor: Color.fromRGBO(203, 219, 188, 10),
-          //       //   inactiveTrackColor: Colors.grey.shade400,
-          //       //   onChanged: (value) {
-          //       //     setState(() {
-          //       //       reverseCalc = value;
-          //       //     });
-          //       //   },
-          //       // ),
-          //       // Text('S'),
-          //       // SizedBox(
-          //       //   width: 50,
-          //       // ),
-          //       // Text('A'),
-          //       // Switch(
-          //       //   value: ENAunit,
-          //       //   activeColor: Color.fromRGBO(203, 219, 188, 10),
-          //       //   inactiveTrackColor: Colors.grey.shade400,
-          //       //   onChanged: (value) {
-          //       //     setState(() {
-          //       //       ENAunit = value;
-          //       //     });
-          //       //   },
-          //       // ),
-          //       // Text('B')
-          //     ],
+          // Container(
+          //   padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 15.0),
+          //   child: const Divider(
+          //     color: Color(0xCC4C4C4C), // Color of the line
+          //     thickness: 0.5, // Thickness of the line
           //   ),
           // ),
-
           // Conversion between Lat-Lon-Alt to ENA and vice versa
           if (sectionEnabled && !ENAunit)
             Container(
@@ -661,125 +572,183 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
               ),
             ),
           // Calculations from Lat-Lon-Alt & ENA values as input
-          if (!sectionEnabled && !reverseCalc && ENAunit)
+          // if (!sectionEnabled && !reverseCalc && ENAunit)
+          if (!sectionEnabled && ENAunit)
             Container(
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
+                      SizedBox(
+                        height: 30,
+                        child: Radio(
+                          value: 1,
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value as int;
+                              reverseCalc = !reverseCalc;
+                            });
+                          },
+                        ),
+                      ),
                       Text(
-                        "Point 1: ",
+                        "Point A: ",
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           color: const Color(0xFF4C4C4C),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(5)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 5, top: 0)),
                       DropdownMenuExample(),
-                      Padding(padding: EdgeInsets.all(5)),
+                      Padding(padding: EdgeInsets.only(left: 5, top: 0)),
                       Container(
                         height: 30,
-                        width: 60,
+                        width: 90,
                         child: TextField(
-                          controller: point1EastingController,
-                          enabled: ENAunit,
+                          controller: point1LatController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: true,
                           decoration: InputDecoration(
-                            labelText: '  -  E', // "12-34567 E"  Easting
+                            labelText: 'Easting',
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(5)),
+                      Padding(padding: EdgeInsets.fromLTRB(5, 2, 5, 2)),
                       Container(
                         height: 30,
-                        width: 60,
+                        width: 100,
                         child: TextField(
-                          controller: point1NorthingController,
-                          enabled: ENAunit,
+                          controller: point1LonController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: true,
                           decoration: InputDecoration(
-                            labelText: '  -  N', // "12-34567 N" Northing
+                            labelText: 'Northing',
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(5)),
+                      Padding(padding: EdgeInsets.fromLTRB(5, 2, 5, 2)),
                       Container(
                         height: 30,
-                        width: 60,
+                        width: 90,
                         child: TextField(
                           controller: point1AltController,
-                          enabled: ENAunit,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: true,
                           decoration: InputDecoration(
-                            labelText: 'Alt 1',
+                            labelText: 'Altitude',
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 4, 0, 4)),
                   Row(
                     children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
+                      Padding(padding: EdgeInsets.only(left: 50)),
                       Text(
-                        "Point 2:",
+                        "Point B: ",
                         style: GoogleFonts.redHatDisplay(
                           fontWeight: FontWeight.w900,
                           color: const Color(0xFF4C4C4C),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(5)),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.only(top:4),),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 5, top: 0)),
                       DropdownMenuExample(),
-                      Padding(padding: EdgeInsets.all(5)),
+                      Padding(padding: EdgeInsets.only(left: 5, top: 0)),
                       Container(
                         height: 30,
-                        width: 60,
+                        width: 90,
                         child: TextField(
-                          controller: point2EastingController,
-                          enabled: ENAunit,
+                          controller: point2LatController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: selectedRadio == 1,
                           decoration: InputDecoration(
-                            labelText: '  -  E', // "12-34567 E"  Easting
+                            labelText: 'Easting',
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(5)),
+                      Padding(padding: EdgeInsets.fromLTRB(5, 2, 5, 2)),
                       Container(
                         height: 30,
-                        width: 60,
+                        width: 100,
                         child: TextField(
-                          controller: point2NorthingController,
-                          enabled: ENAunit,
+                          controller: point2LonController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: selectedRadio == 1,
                           decoration: InputDecoration(
-                            labelText: '  -  N', // "12-34567 N" Northing
+                            labelText: 'Northing',
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(5)),
+                      Padding(padding: EdgeInsets.fromLTRB(5, 2, 5, 2)),
                       Container(
                         height: 30,
-                        width: 60,
+                        width: 90,
                         child: TextField(
                           controller: point2AltController,
-                          enabled: ENAunit,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: selectedRadio == 1,
                           decoration: InputDecoration(
-                            labelText: 'Alt 2',
+                            labelText: 'Altitude',
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
                   Row(
                     children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
+                      Padding(padding: EdgeInsets.only(left: 0)),
+                      SizedBox(
+                        height: 30,
+                        child: Radio(
+                          value: 2,
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value as int;
+                              reverseCalc = !reverseCalc;
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 40,),
                       Container(
-                        width: 75,
+                        width: 95,
                         child: Text(
-                          "Distance:",
+                          "Map Range",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
@@ -789,12 +758,15 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Padding(padding: EdgeInsets.all(10)),
                       Container(
                         height: 30,
-                        width: 165,
+                        width: 160,
                         child: TextField(
                           controller: distanceController,
-                          enabled: sectionEnabled, // reverseCalc
+                          onChanged: (value) => _updateResults(),
+                          enabled: selectedRadio == 2,
+                          keyboardType: TextInputType.numberWithOptions(decimal: true),
+                          // enabled: sectionEnabled,
                           decoration: InputDecoration(
-                            labelText: 'Calculated distance ',
+                            labelText: 'Map Range (km)',
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
@@ -807,11 +779,21 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                   Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
                   Row(
                     children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
+                      Padding(padding: EdgeInsets.only(left: 50)),
                       Container(
-                        width: 75,
+                        width: 95,
                         child: Text(
-                          "Range:",
+                          "Aerial Range",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
@@ -821,12 +803,12 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Padding(padding: EdgeInsets.all(10)),
                       Container(
                         height: 30,
-                        width: 165,
+                        width: 160,
                         child: TextField(
                           controller: rangeController,
-                          enabled: sectionEnabled,
+                          enabled: selectedRadio == 2,
                           decoration: InputDecoration(
-                            labelText: 'Calculated range ', // "471"
+                            labelText: 'Aerial Range (km)',
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
@@ -839,11 +821,21 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                   Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
                   Row(
                     children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
+                      Padding(padding: EdgeInsets.only(left: 50)),
                       Container(
-                        width: 75,
+                        width: 95,
                         child: Text(
-                          "Bearing:",
+                          "Bearing",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
@@ -853,12 +845,36 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Padding(padding: EdgeInsets.all(10)),
                       Container(
                         height: 30,
-                        width: 165,
+                        width: 60,
                         child: TextField(
-                          controller: bearingController,
-                          enabled: sectionEnabled,
+                          // controller: _angleDeg2Controller,
+                          enabled: selectedRadio == 2,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
                           decoration: InputDecoration(
-                            labelText: 'Calculated bearing', //"4712356"
+                            labelText: ' dd °',
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Container(
+                        height: 30,
+                        width: 60,
+                        child: TextField(
+                          // controller: _angleMin2Controller,
+                          enabled: selectedRadio == 2,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
+                          decoration: InputDecoration(
+                            labelText: " min '",
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
@@ -871,11 +887,21 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                   Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
                   Row(
                     children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
+                      Padding(padding: EdgeInsets.only(left: 50)),
                       Container(
-                        width: 75,
+                        width: 95,
                         child: Text(
-                          "AOS:",
+                          "AOS",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
                           style: GoogleFonts.redHatDisplay(
                             fontWeight: FontWeight.w900,
                             color: const Color(0xFF4C4C4C),
@@ -885,12 +911,36 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                       Padding(padding: EdgeInsets.all(10)),
                       Container(
                         height: 30,
-                        width: 165,
+                        width: 60,
                         child: TextField(
-                          controller: aosController,
-                          enabled: sectionEnabled,
+                          // controller: _angleDeg2Controller,
+                          enabled: selectedRadio == 2,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
                           decoration: InputDecoration(
-                            labelText: 'Calculated AOS ', //"47.6"
+                            labelText: ' dd °',
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Container(
+                        height: 30,
+                        width: 60,
+                        child: TextField(
+                          // controller: _angleMin2Controller,
+                          enabled: selectedRadio == 2,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
+                          decoration: InputDecoration(
+                            labelText: " min '",
                             border: OutlineInputBorder(),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
@@ -903,7 +953,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                 ],
               ),
             ),
-          if (!sectionEnabled && reverseCalc && ENAunit)
+/*          if (!sectionEnabled && reverseCalc && ENAunit)
             Container(
               child: Column(
                 children: [
@@ -1413,8 +1463,9 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                   ),
                 ],
               ),
-            ),
-          if (!sectionEnabled && !reverseCalc && !ENAunit)
+            ),*/
+          // if (!sectionEnabled && !reverseCalc && !ENAunit)
+          if (!sectionEnabled && !ENAunit)
             // Container(
             //   child: Column(
             //     children: [
@@ -1786,398 +1837,380 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
             // ),
             Container(
               child: Column(
-              children: [
-    // Row(
-    // mainAxisAlignment: MainAxisAlignment.start,
-    // children: [
-    // Radio(
-    // value: 1,
-    // groupValue: selectedRadio,
-    // onChanged: (value) {
-    // setState(() {
-    // selectedRadio = value as int;
-    // });
-    // },
-    // ),
-    // Text(
-    // "Enable",
-    // style: GoogleFonts.redHatDisplay(
-    // fontWeight: FontWeight.w900,
-    // color: const Color(0xFF4C4C4C),
-    // ),
-    // ),
-    // Radio(
-    // value: 2,
-    // groupValue: selectedRadio,
-    // onChanged: (value) {
-    // setState(() {
-    // selectedRadio = value as int;
-    // });
-    // },
-    // ),
-    // Text(
-    // "Disable",
-    // style: GoogleFonts.redHatDisplay(
-    // fontWeight: FontWeight.w900,
-    // color: const Color(0xFF4C4C4C),
-    // ),
-    // ),
-    // ],
-    // ),
-    Row(
-    children: [
-    Padding(padding: EdgeInsets.only(left: 0)),
-      Radio(
-        value: 1,
-        groupValue: selectedRadio,
-        onChanged: (value) {
-          setState(() {
-            selectedRadio = value as int;
-          });
-        },
-      ),
-    Text(
-    "Point 1: ",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(7)),
-    Container(
-    height: 30,
-    width: 70,
-    child: TextField(
-    controller: point1LatController,
-    keyboardType: TextInputType.number,
-    onChanged: (value) => _updateResults(),
-    enabled: true,
-    decoration: InputDecoration(
-    labelText: 'Lat 1',
-    border: OutlineInputBorder(),
-    ),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(7)),
-    Container(
-    height: 30,
-    width: 70,
-    child: TextField(
-    controller: point1LonController,
-    keyboardType: TextInputType.number,
-    onChanged: (value) => _updateResults(),
-    enabled: true,
-    decoration: InputDecoration(
-    labelText: 'Lon 1',
-    border: OutlineInputBorder(),
-    ),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(7)),
-    Container(
-    height: 30,
-    width: 70,
-    child: TextField(
-    controller: point1AltController,
-    keyboardType: TextInputType.number,
-    onChanged: (value) => _updateResults(),
-    enabled: true,
-    decoration: InputDecoration(
-    labelText: 'Alt 1',
-    border: OutlineInputBorder(),
-    ),
-    ),
-    ),
-    ],
-    ),
-    Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-    Row(
-    children: [
-    Padding(padding: EdgeInsets.only(left: 30)),
-    Text(
-    "Point 2:",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(7)),
-    Container(
-    height: 30,
-    width: 70,
-    child: TextField(
-    controller: point2LatController,
-    keyboardType: TextInputType.number,
-    onChanged: (value) => _updateResults(),
-    enabled: selectedRadio == 1,
-    decoration: InputDecoration(
-    labelText: 'Lat 2',
-    border: OutlineInputBorder(),
-    ),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(7)),
-    Container(
-    height: 30,
-    width: 70,
-    child: TextField(
-    controller: point2LonController,
-    keyboardType: TextInputType.number,
-    onChanged: (value) => _updateResults(),
-    enabled: selectedRadio == 1,
-    decoration: InputDecoration(
-    labelText: 'Lon 2',
-    border: OutlineInputBorder(),
-    ),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(7)),
-    Container(
-    height: 30,
-    width: 70,
-    child: TextField(
-    controller: point2AltController,
-    keyboardType: TextInputType.number,
-    onChanged: (value) => _updateResults(),
-    enabled: selectedRadio == 1,
-    decoration: InputDecoration(
-    labelText: 'Alt 2',
-    border: OutlineInputBorder(),
-    ),
-    ),
-    ),
-    ],
-    ),
-    Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
-    Row(
-    children: [
-    Padding(padding: EdgeInsets.only(left: 0)),
-    Radio(
-      value: 2,
-      groupValue: selectedRadio,
-      onChanged: (value) {
-        setState(() {
-          selectedRadio = value as int;
-        });
-      },
-    ),
-    Container(
-    width: 95,
-    child: Text(
-    "Map Range",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    ),
-    Container(
-    width: 5,
-    child: Text(
-    ":",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(10)),
-    Container(
-    height: 30,
-    width: 160,
-    child: TextField(
-    controller: distanceController,
-    onChanged: (value) => _updateResults(),
-    enabled: selectedRadio == 2,
-    // enabled: sectionEnabled,
-    decoration: InputDecoration(
-    labelText: 'Map Range (km)',
-    border: OutlineInputBorder(),
-    disabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.blue),
-    ),
-    ),
-    ),
-    ),
-    ],
-    ),
-    Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-    Row(
-    children: [
-    Padding(padding: EdgeInsets.only(left: 30)),
-    Container(
-    width: 95,
-    child: Text(
-    "Aerial Range",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    ),
-    Container(
-    width: 5,
-    child: Text(
-    ":",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(10)),
-    Container(
-    height: 30,
-    width: 160,
-    child: TextField(
-    controller: rangeController,
-    enabled: selectedRadio == 2,
-    decoration: InputDecoration(
-    labelText: 'Aerial Range (km)',
-    border: OutlineInputBorder(),
-    disabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.blue),
-    ),
-    ),
-    ),
-    ),
-    ],
-    ),
-    Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-    Row(
-    children: [
-    Padding(padding: EdgeInsets.only(left: 30)),
-    Container(
-    width: 95,
-    child: Text(
-    "Bearing",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    ),
-    Container(
-    width: 5,
-    child: Text(
-    ":",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(10)),
-    Container(
-    height: 30,
-    width: 60,
-    child: TextField(
-    // controller: _angleDeg2Controller,
-    enabled: selectedRadio == 2,
-    style: TextStyle(
-    fontSize: 10.0, // Set the font size here
-    ),
-    decoration: InputDecoration(
-    labelText: ' dd °',
-    border: OutlineInputBorder(),
-    disabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.blue),
-    ),
-    ),
-    ),
-    ),
-    SizedBox(
-    width: 40,
-    ),
-    Container(
-    height: 30,
-    width: 60,
-    child: TextField(
-    // controller: _angleMin2Controller,
-    enabled: selectedRadio == 2,
-    style: TextStyle(
-    fontSize: 10.0, // Set the font size here
-    ),
-    decoration: InputDecoration(
-    labelText: " min '",
-    border: OutlineInputBorder(),
-    disabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.blue),
-    ),
-    ),
-    ),
-    ),
-    ],
-    ),
-    Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
-    Row(
-    children: [
-    Padding(padding: EdgeInsets.only(left: 30)),
-    Container(
-    width: 95,
-    child: Text(
-    "AOS",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    ),
-    Container(
-    width: 5,
-    child: Text(
-    ":",
-    style: GoogleFonts.redHatDisplay(
-    fontWeight: FontWeight.w900,
-    color: const Color(0xFF4C4C4C),
-    ),
-    ),
-    ),
-    Padding(padding: EdgeInsets.all(10)),
-    Container(
-    height: 30,
-    width: 60,
-    child: TextField(
-    // controller: _angleDeg2Controller,
-    enabled: selectedRadio == 2,
-    style: TextStyle(
-    fontSize: 10.0, // Set the font size here
-    ),
-    decoration: InputDecoration(
-    labelText: ' dd °',
-    border: OutlineInputBorder(),
-    disabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.blue),
-    ),
-    ),
-    ),
-    ),
-    SizedBox(
-    width: 40,
-    ),
-    Container(
-    height: 30,
-    width: 60,
-    child: TextField(
-    // controller: _angleMin2Controller,
-    enabled: selectedRadio == 2,
-    style: TextStyle(
-    fontSize: 10.0, // Set the font size here
-    ),
-    decoration: InputDecoration(
-    labelText: " min '",
-    border: OutlineInputBorder(),
-    disabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.blue),
-    ),
-    ),
-    ),
-    ),
-    ],
-    ),
-    ],
-    ),
-    )
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                        child: Radio(
+                          value: 1,
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value as int;
+                              reverseCalc = !reverseCalc;
+                            });
+                          },
+                        ),
+                      ),
+                      Text(
+                        "Point A: ",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 55, top: 0)),
+                      // DropdownMenuExample(), ke liye 45 width
+                      Container(
+                        height: 30,
+                        width: 90,
+                        child: TextField(
+                          controller: point1LatController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: true,
+                          decoration: InputDecoration(
+                            labelText: 'Latitude',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(5, 2, 5, 2)),
+                      Container(
+                        height: 30,
+                        width: 100,
+                        child: TextField(
+                          controller: point1LonController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: true,
+                          decoration: InputDecoration(
+                            labelText: 'Longitude',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(5, 2, 5, 2)),
+                      Container(
+                        height: 30,
+                        width: 90,
+                        child: TextField(
+                          controller: point1AltController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: true,
+                          decoration: InputDecoration(
+                            labelText: 'Altitude',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 4, 0, 4)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 50)),
+                      Text(
+                        "Point B: ",
+                        style: GoogleFonts.redHatDisplay(
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF4C4C4C),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.only(top:4),),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 55)),
+                      Container(
+                        height: 30,
+                        width: 90,
+                        child: TextField(
+                          controller: point2LatController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: selectedRadio == 1,
+                          decoration: InputDecoration(
+                            labelText: 'Latitude',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(5, 2, 5, 2)),
+                      Container(
+                        height: 30,
+                        width: 100,
+                        child: TextField(
+                          controller: point2LonController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: selectedRadio == 1,
+                          decoration: InputDecoration(
+                            labelText: 'Longitude',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(5, 2, 5, 2)),
+                      Container(
+                        height: 30,
+                        width: 90,
+                        child: TextField(
+                          controller: point2AltController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => _updateResults(),
+                          enabled: selectedRadio == 1,
+                          decoration: InputDecoration(
+                            labelText: 'Altitude',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 0)),
+                      SizedBox(
+                        height: 30,
+                        child: Radio(
+                          value: 2,
+                          groupValue: selectedRadio,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadio = value as int;
+                              reverseCalc = !reverseCalc;
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 40,),
+                      Container(
+                        width: 95,
+                        child: Text(
+                          "Map Range",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 30,
+                        width: 160,
+                        child: TextField(
+                          controller: distanceController,
+                          onChanged: (value) => _updateResults(),
+                          enabled: selectedRadio == 2,
+                          keyboardType: TextInputType.numberWithOptions(decimal: true),
+                          // enabled: sectionEnabled,
+                          decoration: InputDecoration(
+                            labelText: 'Map Range (km)',
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 50)),
+                      Container(
+                        width: 95,
+                        child: Text(
+                          "Aerial Range",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 30,
+                        width: 160,
+                        child: TextField(
+                          controller: rangeController,
+                          enabled: selectedRadio == 2,
+                          decoration: InputDecoration(
+                            labelText: 'Aerial Range (km)',
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 50)),
+                      Container(
+                        width: 95,
+                        child: Text(
+                          "Bearing",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 30,
+                        width: 60,
+                        child: TextField(
+                          // controller: _angleDeg2Controller,
+                          enabled: selectedRadio == 2,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
+                          decoration: InputDecoration(
+                            labelText: ' dd °',
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Container(
+                        height: 30,
+                        width: 60,
+                        child: TextField(
+                          // controller: _angleMin2Controller,
+                          enabled: selectedRadio == 2,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
+                          decoration: InputDecoration(
+                            labelText: " min '",
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 6, 0, 0)),
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 50)),
+                      Container(
+                        width: 95,
+                        child: Text(
+                          "AOS",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 5,
+                        child: Text(
+                          ":",
+                          style: GoogleFonts.redHatDisplay(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF4C4C4C),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Container(
+                        height: 30,
+                        width: 60,
+                        child: TextField(
+                          // controller: _angleDeg2Controller,
+                          enabled: selectedRadio == 2,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
+                          decoration: InputDecoration(
+                            labelText: ' dd °',
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Container(
+                        height: 30,
+                        width: 60,
+                        child: TextField(
+                          // controller: _angleMin2Controller,
+                          enabled: selectedRadio == 2,
+                          style: TextStyle(
+                            fontSize: 10.0, // Set the font size here
+                          ),
+                          decoration: InputDecoration(
+                            labelText: " min '",
+                            border: OutlineInputBorder(),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
         ],
       ),
     );
@@ -2186,6 +2219,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
 
 class GeoLocationCameraOn extends StatefulWidget {
   const GeoLocationCameraOn({Key? key}) : super(key: key);
+
   @override
   State<GeoLocationCameraOn> createState() => _GeoLocationCameraOnState();
 }
@@ -2241,6 +2275,7 @@ class _GeoLocationCameraOnState extends State<GeoLocationCameraOn> {
   }
 
   Color buttonColor = Color.fromRGBO(203, 219, 188, 60);
+
   @override
   Widget build(BuildContext context) {
     return Container(
