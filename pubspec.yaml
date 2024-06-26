@@ -32,6 +32,7 @@ dependencies:
   path_provider: ^2.0.2
   fluttertoast: ^8.0.8
   sensors_plus: ^3.1.0
+  location: ^4.4.0
 
 dev_dependencies:
   flutter_test:

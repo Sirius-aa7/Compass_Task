@@ -1,5 +1,6 @@
 import 'package:arnv/modules/module2.dart';
 import 'package:arnv/modules/module3.dart';
+import 'package:arnv/modules/navigator.dart';
 import 'package:arnv/pages/bubbleLevel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -296,8 +297,7 @@ class Screen4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return SwipeNavigator(
       child: Scaffold(
-        appBar: AppBar(title: Text('Screen 4')),
-        body: Center(child: Text('Screen 4')),
+        body: NavigationPage()
       ),
     );
   }
