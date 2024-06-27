@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../modules/conversion.dart';
+import '../modules/conversion2.dart';
 import 'buttons_beside_compass.dart';
 import 'calculation.dart';
 import 'dropdownENA.dart';
@@ -322,255 +324,257 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
           // ),
           // Conversion between Lat-Lon-Alt to ENA and vice versa
           if (sectionEnabled && !ENAunit)
-            Container(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point : ",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: pointLatConvertConttroller,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lat 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: pointLonConvertController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lon 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: pointAltConvertConttroller,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point : ",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 45,
-                        child: TextField(
-                          controller: pointZoneConvertController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'A1', // "12-34567 E"  Easting
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: pointNortConvertController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: '  -  E', // "12-34567 E"  Easting
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: pointEastConvertConttroller,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: '  -  N', // "12-34567 N" Northing
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: pointAltConvertConttroller,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) => _updateResults(),
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            CoordinateConverter(),
+            // Container(
+            //   child: Column(
+            //     children: [
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Text(
+            //             "Point : ",
+            //             style: GoogleFonts.redHatDisplay(
+            //               fontWeight: FontWeight.w900,
+            //               color: const Color(0xFF4C4C4C),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: pointLatConvertConttroller,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Lat 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: pointLonConvertController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Lon 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: pointAltConvertConttroller,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Alt',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Text(
+            //             "Point : ",
+            //             style: GoogleFonts.redHatDisplay(
+            //               fontWeight: FontWeight.w900,
+            //               color: const Color(0xFF4C4C4C),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(5)),
+            //           Container(
+            //             height: 30,
+            //             width: 45,
+            //             child: TextField(
+            //               controller: pointZoneConvertController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'A1', // "12-34567 E"  Easting
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(5)),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               controller: pointNortConvertController,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: '  -  E', // "12-34567 E"  Easting
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(5)),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               controller: pointEastConvertConttroller,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: '  -  N', // "12-34567 N" Northing
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(5)),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               controller: pointAltConvertConttroller,
+            //               keyboardType: TextInputType.number,
+            //               onChanged: (value) => _updateResults(),
+            //               enabled: ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Alt',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
           if (sectionEnabled && ENAunit)
-            Container(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point :",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point1LatController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lat 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point1LonController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Lon 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(7)),
-                      Container(
-                        height: 30,
-                        width: 70,
-                        child: TextField(
-                          controller: point1AltController,
-                          enabled: !ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
-                  Row(
-                    children: [
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "Point :",
-                        style: GoogleFonts.redHatDisplay(
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF4C4C4C),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      DropdownMenuExample(), // may get difficult to use
-                      // this value for reverse calculation
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point1EastingController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: '  -  E', // "12-34567 E"  Easting
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point1NorthingController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: '  -  N', // "12-34567 N" Northing
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.all(5)),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        child: TextField(
-                          controller: point1AltController,
-                          enabled: ENAunit,
-                          decoration: InputDecoration(
-                            labelText: 'Alt 1',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            ENACoordinateConverter(),
+            // Container(
+            //   child: Column(
+            //     children: [
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Text(
+            //             "Point :",
+            //             style: GoogleFonts.redHatDisplay(
+            //               fontWeight: FontWeight.w900,
+            //               color: const Color(0xFF4C4C4C),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point1LatController,
+            //               enabled: !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Lat 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point1LonController,
+            //               enabled: !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Lon 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(7)),
+            //           Container(
+            //             height: 30,
+            //             width: 70,
+            //             child: TextField(
+            //               controller: point1AltController,
+            //               enabled: !ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Alt 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       Padding(padding: EdgeInsets.fromLTRB(0, 12, 0, 0)),
+            //       Row(
+            //         children: [
+            //           Padding(padding: EdgeInsets.only(left: 30)),
+            //           Text(
+            //             "Point :",
+            //             style: GoogleFonts.redHatDisplay(
+            //               fontWeight: FontWeight.w900,
+            //               color: const Color(0xFF4C4C4C),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(5)),
+            //           DropdownMenuExample(), // may get difficult to use
+            //           // this value for reverse calculation
+            //           Padding(padding: EdgeInsets.all(5)),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               controller: point1EastingController,
+            //               enabled: ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: '  -  E', // "12-34567 E"  Easting
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(5)),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               controller: point1NorthingController,
+            //               enabled: ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: '  -  N', // "12-34567 N" Northing
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //           Padding(padding: EdgeInsets.all(5)),
+            //           Container(
+            //             height: 30,
+            //             width: 60,
+            //             child: TextField(
+            //               controller: point1AltController,
+            //               enabled: ENAunit,
+            //               decoration: InputDecoration(
+            //                 labelText: 'Alt 1',
+            //                 border: OutlineInputBorder(),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
           // Calculations from Lat-Lon-Alt & ENA values as input
           // if (!sectionEnabled && !reverseCalc && ENAunit)
           if (!sectionEnabled && ENAunit)
