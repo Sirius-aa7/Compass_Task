@@ -10,7 +10,6 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 import 'package:arnv/controllers/compass_controller.dart';
 import 'package:flutter/services.dart';
-import 'package:torch_light/torch_light.dart';
 import 'dart:ui' as ui;
 import 'bubbleLevel.dart';
 import 'buttons_beside_compass.dart';
@@ -104,9 +103,9 @@ class _HomePageState extends State<HomePage> {
   void _toggleTorch() async {
     try {
       if (_isTorchOn) {
-        await TorchLight.disableTorch();
+        await _cameraController.setFlashMode(FlashMode.off);
       } else {
-        await TorchLight.enableTorch();
+        await _cameraController.setFlashMode(FlashMode.torch);
       }
       setState(() {
         _isTorchOn = !_isTorchOn;
