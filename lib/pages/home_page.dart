@@ -1,5 +1,6 @@
 import 'package:arnv/modules/module2.dart';
 import 'package:arnv/pages/sensorCode.dart';
+import 'package:arnv/services/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/rendering.dart';
@@ -163,16 +164,23 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 35.0, 16.0, 5),
+                      padding: const EdgeInsets.fromLTRB(6.0, 35.0, 6.0, 5),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          SizedBox(
+                              width: 145,
+                              child: TimeDisplayPage()),
                           RoundedIconButton(
                               icon: Icons.star,
                               onPressed: () {
                                 _captureCompleteScreenshot();
                                 setState(() {});
                               }),
+                          SizedBox(
+                              width: 145,
+                              // child: TimeDisplayPage()
+                          ),
                         ],
                       ),
                     ),
