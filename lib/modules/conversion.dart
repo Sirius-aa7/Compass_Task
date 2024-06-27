@@ -443,32 +443,23 @@ class _CoordinateConverterState extends State<CoordinateConverter> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          // Input row: Degrees, Minutes, Seconds
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-            child: _buildInputRow(0, 'Lat-Lon-Alt (DMS)', latDegController, latMinController, latSecController, lonDegController, lonMinController, lonSecController, altController),
-          ),
-          SizedBox(height: 8),
-          // First output row: Degrees Minutes
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _buildOutputRow(1, 'Lat-Lon-Alt (DM)', convertedLatDegMinController, convertedLonDegMinController, convertedAltController),
-          ),
-          SizedBox(height: 8),
-          // Second output row: Degrees
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _buildOutputRow(2, 'Lat-Lon-Alt (D)', convertedLatDegController, convertedLonDegController, convertedAltController),
-          ),
-          SizedBox(height: 8),
-          // Third output row: Easting, Northing, Altitude
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _buildOutputRow(3, 'East-Nort-Alt', eastingController, northingController, convertedAltEastingNorthingController),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      child: Column(
+          children: [
+            // Input row: Degrees, Minutes, Seconds
+            _buildInputRow(0, 'Lat-Lon-Alt (DMS)', latDegController, latMinController, latSecController, lonDegController, lonMinController, lonSecController, altController),
+            SizedBox(height: 8),
+            // First output row: Degrees Minutes
+            _buildOutputRow(1, 'Lat-Lon-Alt (DM)', convertedLatDegMinController, convertedLonDegMinController, convertedAltController),
+            SizedBox(height: 8),
+            // Second output row: Degrees
+            _buildOutputRow(2, 'Lat-Lon-Alt (D)', convertedLatDegController, convertedLonDegController, convertedAltController),
+            SizedBox(height: 8),
+            // Third output row: Easting, Northing, Altitude
+            _buildOutputRow(3, 'East-Nort-Alt', eastingController, northingController, convertedAltEastingNorthingController),
+          ],
+      ),
     );
   }
 
@@ -478,33 +469,32 @@ class _CoordinateConverterState extends State<CoordinateConverter> {
       children: [
         Row(
           children: [
-            SizedBox(width: 8,),
+            // SizedBox(width: 8,),
             Text('$label', style: TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
         SizedBox(height: 4),
         Row(
           children: [
+            SizedBox(width: 12),
             SizedBox(width: 45, height: 40, child: _buildEditableInput(
                 'DD', latDegController)),
-            SizedBox(width: 4),
+            SizedBox(width: 8),
             SizedBox(width: 45, height: 40, child: _buildEditableInput(
                 'MM', latMinController)),
-            SizedBox(width: 4),
+            SizedBox(width: 8),
             SizedBox(width: 45, height: 40, child: _buildEditableInput(
                 'SS', latSecController)),
-            SizedBox(width: 4),
+            SizedBox(width: 8),
             SizedBox(width: 45, height: 40, child: _buildEditableInput(
                 'DD', lonDegController)),
-            SizedBox(width: 4),
+            SizedBox(width: 8),
             SizedBox(width: 45, height: 40, child: _buildEditableInput(
                 'MM', lonMinController)),
-            SizedBox(width: 4),
+            SizedBox(width: 8),
             SizedBox(width: 45, height: 40, child: _buildEditableInput(
                 'SS', lonSecController)),
-            SizedBox(width: 4),
-            SizedBox(width: 45, height: 40, child: _buildEditableInput('Alt',
-                altController)),
+            SizedBox(width: 6),
           ],
         ),
       ],
