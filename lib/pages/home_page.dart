@@ -1,5 +1,6 @@
 import 'package:arnv/modules/module2.dart';
 import 'package:arnv/pages/sensorCode.dart';
+import 'package:arnv/pages/settingsPage.dart';
 import 'package:arnv/services/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -113,6 +114,19 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  void _showOverlay(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      isDismissible: true,
+      enableDrag: true,
+      builder: (BuildContext context) {
+        return ButtonOverlayContent();
+      },
+    );
   }
 
   @override
@@ -298,6 +312,8 @@ class _HomePageState extends State<HomePage> {
                               icon: Icons.settings,
                               onPressed: () {
                                 print('Button Pressed!');
+                                _showOverlay(context);
+                                print("settings");
                                 setState(() {});
                               },
                             ),

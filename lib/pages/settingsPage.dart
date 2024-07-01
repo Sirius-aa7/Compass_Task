@@ -1,27 +1,5 @@
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ButtonOverlayButton(buttonNumber: 1),
-            SizedBox(height: 20),
-            ButtonOverlayButton(buttonNumber: 2),
-            SizedBox(height: 20),
-            ButtonOverlayButton(buttonNumber: 3),
-            SizedBox(height: 20),
-            ButtonOverlayButton(buttonNumber: 4),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class ButtonOverlayButton extends StatelessWidget {
   final int buttonNumber;
 
