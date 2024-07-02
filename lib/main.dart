@@ -1,6 +1,7 @@
 import 'package:arnv/modules/module2.dart';
 import 'package:arnv/modules/module3.dart';
 import 'package:arnv/modules/navigator.dart';
+import 'package:arnv/pages/app_state.dart';
 import 'package:arnv/pages/bubbleLevel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +15,9 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (_) => CompassController(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AppState(),
         ),
       ],
       child: const MyApp(),

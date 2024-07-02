@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../modules/conversion.dart';
 import '../modules/conversion2.dart';
+import 'app_state.dart';
 import 'buttons_beside_compass.dart';
 import 'calculation.dart';
 import 'dropdownENA.dart';
@@ -100,11 +102,11 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
   late LocationPermission permission;
   String _currentAddress = "";
   bool sectionEnabled = false;
-  bool ENAunit = false;
+  // bool ENAunit = false;
   bool reverseCalc = false;
   final Calculator _calculator = Calculator();
 
-  String dropdownValue = 'P';
+  static String dropdownValue = 'P';
   String enaDropdownValue = 'A';
   int selectedRadio = 1;
 
@@ -248,6 +250,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = Provider.of<AppState>(context);
+
     return Container(
       child: Column(
         children: [
@@ -293,7 +297,8 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                 SizedBox(width:5,),
                 Spacer(flex: 1), // Add a Spacer with flex: 1
                 DropdownButton<String>(
-                  value: enaDropdownValue,
+                  value: appState.enaDropdownValue,
+                  // value: enaDropdownValue,
                   items: [
                     DropdownMenuItem(
                       value: 'A',
@@ -306,8 +311,10 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
                   ],
                   onChanged: (String? newValue) {
                     setState(() {
-                      enaDropdownValue = newValue!;
-                      ENAunit = enaDropdownValue == 'B';
+                      appState.setenaDropdownValue(newValue!);
+                      // enaDropdownValue = newValue!;
+                      appState.setENAunit(appState.ENAunit);
+                      appState.setENAunit(appState.enaDropdownValue == 'B');
                     });
                   },
                 ),
@@ -323,7 +330,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
           //   ),
           // ),
           // Conversion between Lat-Lon-Alt to ENA and vice versa
-          if (sectionEnabled && !ENAunit)
+          if (sectionEnabled && !appState.ENAunit)
             CoordinateConverter(),
             // Container(
             //   child: Column(
@@ -461,7 +468,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
             //     ],
             //   ),
             // ),
-          if (sectionEnabled && ENAunit)
+          if (sectionEnabled && appState.ENAunit)
             ENACoordinateConverter(),
             // Container(
             //   child: Column(
@@ -577,7 +584,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
             // ),
           // Calculations from Lat-Lon-Alt & ENA values as input
           // if (!sectionEnabled && !reverseCalc && ENAunit)
-          if (!sectionEnabled && ENAunit)
+          if (!sectionEnabled && appState.ENAunit)
             Container(
               child: Column(
                 children: [
@@ -1469,7 +1476,7 @@ class _GeoLocationAppState extends State<GeoLocationApp> {
               ),
             ),*/
           // if (!sectionEnabled && !reverseCalc && !ENAunit)
-          if (!sectionEnabled && !ENAunit)
+          if (!sectionEnabled && !appState.ENAunit)
             // Container(
             //   child: Column(
             //     children: [

@@ -127,6 +127,9 @@ class _HomePageState extends State<HomePage> {
         return ButtonOverlayContent();
       },
     );
+    setState(() {
+
+    });
   }
 
   @override

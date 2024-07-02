@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'app_state.dart';
+import 'lat_long.dart';
 
 class ButtonOverlayButton extends StatelessWidget {
   final int buttonNumber;
@@ -59,6 +62,8 @@ class _ButtonOverlayContentState extends State<ButtonOverlayContent> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = Provider.of<AppState>(context);
+
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.8, // 80% of screen width
@@ -81,6 +86,8 @@ class _ButtonOverlayContentState extends State<ButtonOverlayContent> {
             ),
             SizedBox(height: 20),
             DropdownButton<String>(
+              // value: GeoLocationApp().drop,
+              // value: Provider.of<GeoLocationApp>(context).drop,
               value: _selectedItemFirstDropdown,
               onChanged: (newValue) {
                 _updateSecondDropdownItems(newValue!);
@@ -93,6 +100,28 @@ class _ButtonOverlayContentState extends State<ButtonOverlayContent> {
               }).toList(),
             ),
             SizedBox(height: 20),
+            DropdownButton<String>(
+              value: appState.enaDropdownValue,
+              // value: enaDropdownValue,
+              items: [
+                DropdownMenuItem(
+                  value: 'A',
+                  child: Text('Primary Unit'),
+                ),
+                DropdownMenuItem(
+                  value: 'B',
+                  child: Text('Secondary Unit'),
+                ),
+              ],
+              onChanged: (String? newValue) {
+                setState(() {
+                  appState.setenaDropdownValue(newValue!);
+                  appState.setENAunit(appState.ENAunit);
+                  appState.setENAunit(appState.enaDropdownValue == 'B');
+                  // appState.enaDropdownValue == 'B';
+                });
+              },
+            ),
             DropdownButton<String>(
               value: _selectedItemSecondDropdown,
               onChanged: (newValue) {
