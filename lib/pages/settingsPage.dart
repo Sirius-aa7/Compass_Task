@@ -36,10 +36,12 @@ class ButtonOverlayContent extends StatefulWidget {
 }
 
 class _ButtonOverlayContentState extends State<ButtonOverlayContent> {
-  String _selectedItemFirstDropdown = 'Item 1';
+  String _selectedItemFirstDropdown = 'Lat-Lon(DMS)';
   String _selectedItemSecondDropdown = '';
-  List<String> _dropdownItems = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-  List<String> _secondDropdownItems = ['Item 2', 'Item 3', 'Item 4'];
+  List<String> _dropdownItems = ['Lat-Lon(DMS)', 'Lat-Lon(DM)', 'Lat-Lon(D)',
+    'East-Nort'];
+  List<String> _secondDropdownItems = ['Lat-Lon(DM)', 'Lat-Lon(D)',
+    'East-Nort'];
 
   @override
   void initState() {
@@ -78,28 +80,16 @@ class _ButtonOverlayContentState extends State<ButtonOverlayContent> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () => Navigator.of(context).pop(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            DropdownButton<String>(
-              // value: GeoLocationApp().drop,
-              // value: Provider.of<GeoLocationApp>(context).drop,
-              value: _selectedItemFirstDropdown,
-              onChanged: (newValue) {
-                _updateSecondDropdownItems(newValue!);
-              },
-              items: _dropdownItems.map((item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 20),
+            // SizedBox(height: 20),
             DropdownButton<String>(
               value: appState.enaDropdownValue,
               // value: enaDropdownValue,
@@ -122,19 +112,53 @@ class _ButtonOverlayContentState extends State<ButtonOverlayContent> {
                 });
               },
             ),
-            DropdownButton<String>(
-              value: _selectedItemSecondDropdown,
-              onChanged: (newValue) {
-                setState(() {
-                  _selectedItemSecondDropdown = newValue!;
-                });
-              },
-              items: _secondDropdownItems.map((item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList(),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                    width: 100,
+                    child: Text("Primary Units", style: TextStyle(fontSize:
+                    12),)),
+                DropdownButton<String>(
+                  // value: GeoLocationApp().drop,
+                  // value: Provider.of<GeoLocationApp>(context).drop,
+                  value: _selectedItemFirstDropdown,
+                  onChanged: (newValue) {
+                    _updateSecondDropdownItems(newValue!);
+                  },
+                  items: _dropdownItems.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(item),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                    width: 100,
+                    child: Text("Secondary Units", style: TextStyle(fontSize:
+                    12),)),
+                DropdownButton<String>(
+                  value: _selectedItemSecondDropdown,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedItemSecondDropdown = newValue!;
+                    });
+                  },
+                  items: _secondDropdownItems.map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(item),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
           ],
         ),
